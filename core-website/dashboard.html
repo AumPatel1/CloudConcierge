@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Concierge - Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <!-- Add logo here -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard">
+        <div class="container">
+            <div class="dashboard-content">
+                <h2>Sales Dashboard</h2>
+                <form id="sales-form">
+                    <div class="days-container">
+                        <div class="day">
+                            <label for="monday">Monday</label>
+                            <input type="number" id="monday" name="monday" placeholder="Enter sales" required>
+                        </div>
+                        <div class="day">
+                            <label for="tuesday">Tuesday</label>
+                            <input type="number" id="tuesday" name="tuesday" placeholder="Enter sales" required>
+                        </div>
+                        <div class="day">
+                            <label for="wednesday">Wednesday</label>
+                            <input type="number" id="wednesday" name="wednesday" placeholder="Enter sales" required>
+                        </div>
+                        <div class="day">
+                            <label for="thursday">Thursday</label>
+                            <input type="number" id="thursday" name="thursday" placeholder="Enter sales" required>
+                        </div>
+                        <div class="day">
+                            <label for="friday">Friday</label>
+                            <input type="number" id="friday" name="friday" placeholder="Enter sales" required>
+                        </div>
+                        <div class="day">
+                            <label for="saturday">Saturday</label>
+                            <input type="number" id="saturday" name="saturday" placeholder="Enter sales" required>
+                        </div>
+                        <div class="day">
+                            <label for="sunday">Sunday</label>
+                            <input type="number" id="sunday" name="sunday" placeholder="Enter sales" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Sales</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>About Cloud Concierge</h3>
+                    <p>Your AI sales prediction software</p>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i>1395 Woodroffe Ave, Ottawa ON</p>
+                    <p><i class="fas fa-envelope"></i> support@cloudconcierge.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cloud Concierge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+
+    <script>
+    // Check if the token exists in localStorage
+    const token = localStorage.getItem('token');
+
+    // if (!token) {
+    //     // Redirect to the login page if no token found
+    //     window.location.href = 'index.html';
+    // }
+
+    document.getElementById('sales-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const salesData = {
+            monday: document.getElementById('monday').value,
+            tuesday: document.getElementById('tuesday').value,
+            wednesday: document.getElementById('wednesday').value,
+            thursday: document.getElementById('thursday').value,
+            friday: document.getElementById('friday').value,
+            saturday: document.getElementById('saturday').value,
+            sunday: document.getElementById('sunday').value,
+        };
+
+        const response = await fetch('http://localhost:5000/api/sales', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token, // Use JWT token
+            },
+            body: JSON.stringify(salesData),
+        });
+
+        const data = await response.json();
+        alert(data.message);
+    });
+    </script>
+</body>
+</html>
