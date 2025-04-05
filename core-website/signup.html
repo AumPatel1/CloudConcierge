@@ -1,0 +1,37 @@
+<form id="signup-form">
+    <input type="email" id="signup-email" placeholder="Email" required>
+    <input type="password" id="signup-password" placeholder="Password" required>
+    <button type="submit">Sign Up</button>
+</form>
+
+<script>
+  document.getElementById('signup-form').addEventListener('submit', async (e) => {
+    e.preventDefault();  // Prevent form submission
+
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+    
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      
+      const data = await res.json();
+      alert(data.message);  // Display the server's message (either success or error)
+
+      // Check if the server responded with a success status
+      if (res.ok) {
+        // User created successfully, redirect to index (login) page
+        window.location.href = './index.html';  // Redirect to login page
+      } else {
+        // Display error message
+        alert(data.message || 'Error creating account');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while processing your request.');
+    }
+  });
+</script>

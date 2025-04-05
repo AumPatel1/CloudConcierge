@@ -58,52 +58,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Testimonial Slider
-    const testimonialDots = document.querySelectorAll('.testimonial-dots .dot');
-    const testimonialSlides = document.querySelectorAll('.testimonial-slide');
-    let currentSlide = 0;
 
-    // Auto slide every 5 seconds
-    const autoSlide = setInterval(nextSlide, 5000);
 
-    function showSlide(index) {
-        // Hide all slides
-        testimonialSlides.forEach(slide => {
-            slide.style.display = 'none';
-        });
-        
-        // Remove active class from all dots
-        testimonialDots.forEach(dot => {
-            dot.classList.remove('active');
-        });
-        
-        // Show the current slide and activate its dot
-        testimonialSlides[index].style.display = 'block';
-        testimonialDots[index].classList.add('active');
-    }
 
-    function nextSlide() {
-        currentSlide++;
-        if (currentSlide >= testimonialSlides.length) {
-            currentSlide = 0;
-        }
-        showSlide(currentSlide);
-    }
-
-    // Initialize slider
-    showSlide(currentSlide);
-
-    // Add click event to dots
-    testimonialDots.forEach((dot, index) => {
-        dot.addEventListener('click', function() {
-            currentSlide = index;
-            showSlide(currentSlide);
-            
-            // Reset the interval when a dot is clicked
-            clearInterval(autoSlide);
-            setInterval(nextSlide, 5000);
-        });
-    });
 
     // Smooth Scrolling for anchors
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

@@ -1,0 +1,20 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const authRoutes = require('./routes/auth');
+const salesRoutes = require('./routes/sales'); // Include the sales route
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// Connect to MongoDB
+mongoose.connect('YOUR_MONGODB_URI')
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB error:', err));
+
+// Authentication and Sales routes
+app.use('/api/auth', authRoutes);
+app.use('/api/sales', salesRoutes); // Sales route
+
+app.listen(5000, () => console.log('Server running on port 5000'));
