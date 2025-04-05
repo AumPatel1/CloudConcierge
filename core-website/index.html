@@ -16,6 +16,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
+                    <!-- Add logo here -->
                 </div>
             </div>
         </div>
@@ -26,7 +27,7 @@
         <div class="container">
             <div class="login-content">
                 <h2>Login to Cloud Concierge</h2>
-                <form action="/login" method="POST" class="login-form">
+                <form id="login-form" method="POST">
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" placeholder="Enter your email" required>
@@ -35,9 +36,7 @@
                         <label for="password">Password</label>
                         <input type="password" id="password" name="password" placeholder="Enter your password" required>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
                 </form>
                 <div class="login-footer">
                     <p>Don't have an account? <a href="signup.html">Sign up</a></p>
@@ -72,5 +71,35 @@
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>
+
+    <script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Send login request to backend
+        const response = await fetch('http://localhost:5000/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (data.token) {
+            // Save the token in localStorage
+            localStorage.setItem('token', data.token);
+
+            // Redirect to the dashboard
+            window.location.href = 'dashboard.html'; // Redirect to the dashboard page
+        } else {
+            alert('Login failed: ' + data.message);
+        }
+    });
+    </script>
 </body>
 </html>
