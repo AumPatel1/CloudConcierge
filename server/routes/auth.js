@@ -19,6 +19,7 @@ router.post('/signup', async (req, res) => {
     await newUser.save();
     res.status(201).json({ message: 'User created successfully!' });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -34,9 +35,16 @@ router.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    const token = jwt.sign({ id: user._id }, 'secret-key');
+    // IMPORTANT: Match the payload used in verifyToken.js (`req.user.userId`)
+    const token = jwt.sign(
+      { userId: user._id },
+      'YOUR_SECRET_KEY', // Use the same key as verifyToken.js
+      { expiresIn: '1h' }
+    );
+
     res.json({ message: 'Login successful', token });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'Server error' });
   }
 });
