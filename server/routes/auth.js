@@ -7,14 +7,22 @@ const router = express.Router();
 
 // Signup
 router.post('/signup', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, restaurantName, restaurantTypes, postalCode } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
-    if (userExists) return res.status(400).json({ message: 'User already exists' });
+    if (userExists) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
 
     const hashed = await bcrypt.hash(password, 10);
-    const newUser = new User({ email, password: hashed });
+    const newUser = new User({
+      email,
+      password: hashed,
+      restaurantName,
+      restaurantTypes,
+      postalCode,
+    });
 
     await newUser.save();
     res.status(201).json({ message: 'User created successfully!' });
@@ -35,10 +43,9 @@ router.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    // IMPORTANT: Match the payload used in verifyToken.js (`req.user.userId`)
     const token = jwt.sign(
-      { userId: user._id },
-      'YOUR_SECRET_KEY', // Use the same key as verifyToken.js
+      { userId: user._id }, // Must match what's used in verifyToken
+      'YOUR_SECRET_KEY',     // Keep consistent with verifyToken.js
       { expiresIn: '1h' }
     );
 

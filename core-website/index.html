@@ -90,7 +90,7 @@
 
         const data = await response.json();
 
-        if (data.token) {
+        if (response.ok && data.token) {
             // Save the token in localStorage
             localStorage.setItem('token', data.token);
 
