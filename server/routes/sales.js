@@ -1,6 +1,6 @@
 const express = require('express');
 const Sales = require('../models/Sales');
-const verifyToken = require('../middlewares/verifyToken'); // Middleware to verify JWT token
+const verifyToken = require('../middleware/verifyToken'); // Middleware to verify JWT token
 const router = express.Router();
 
 // POST route to save sales data (protected)

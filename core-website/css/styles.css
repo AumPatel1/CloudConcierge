@@ -906,3 +906,106 @@ img {
         padding: 10px 25px;
     }
 } 
+/* Navbar styles */
+.navbar {
+    background-color: #333;
+    padding: 15px 0;
+    color: white;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-content .logo h2 {
+    color: white;
+    margin: 0;
+}
+
+.navbar .nav-links {
+    list-style: none;
+    padding: 0;
+}
+
+.navbar .nav-links li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-links a:hover {
+    color: #007bff;
+}
+
+/* Dashboard Section */
+.dashboard {
+    padding: 20px;
+    background-color: #f8f8f8;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.dashboard-content {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#sales-form {
+    display: grid;
+    gap: 15px;
+}
+
+.days-container {
+    display: grid;          /* Use grid layout */
+    grid-template-columns: repeat(7, 1fr); /* 7 equal columns (one for each day) */
+    gap: 20px;              /* Space between columns */
+    margin-top: 20px;       /* Space above the container */
+}
+
+.day {
+    display: flex;
+    flex-direction: column;  /* Stack label and input vertically */
+    text-align: center;      /* Center the text */
+}
+
+.day label {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.day input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    grid-column: span 7;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.
+}
