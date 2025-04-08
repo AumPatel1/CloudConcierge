@@ -21,83 +21,188 @@
             </div>
         </div>
     </header>
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="container">
+        <div class="navbar-content">
+            <div class="logo">
+                <h2>Cloud Concierge</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="index.html">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-    <!-- Dashboard Section -->
-    <section class="dashboard">
-        <div class="container">
-            <div class="dashboard-content">
-                <h2>Sales Dashboard</h2>
-                <form id="sales-form">
-                    <div class="days-container">
-                        <div class="day">
-                            <label for="monday">Monday</label>
-                            <input type="number" id="monday" name="monday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <label for="tuesday">Tuesday</label>
-                            <input type="number" id="tuesday" name="tuesday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <label for="wednesday">Wednesday</label>
-                            <input type="number" id="wednesday" name="wednesday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <label for="thursday">Thursday</label>
-                            <input type="number" id="thursday" name="thursday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <label for="friday">Friday</label>
-                            <input type="number" id="friday" name="friday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <label for="saturday">Saturday</label>
-                            <input type="number" id="saturday" name="saturday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <label for="sunday">Sunday</label>
-                            <input type="number" id="sunday" name="sunday" placeholder="Enter sales" required>
-                        </div>
+<!-- Dashboard Section -->
+<section class="dashboard">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Welcome to <span id="restaurant-name"></span>'s Dashboard</h1>
+        </div>
+
+        <div class="dashboard-content">
+            <h2>Sales Dashboard</h2>
+            <form id="sales-form">
+                <div class="days-container">
+                    <div class="day">
+                        <br>
+                        <label for="monday">Monday</label>
+                        <span id="monday-date" class="date"></span>
+                        <input type="number" id="monday" name="monday" placeholder="Enter sales" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit Sales</button>
-                </form>
+                    <div class="day">
+                        <br>
+                        <label for="tuesday">Tuesday</label>
+                        <span id="tuesday-date" class="date"></span>
+                        <input type="number" id="tuesday" name="tuesday" placeholder="Enter sales" required>
+                    </div>
+                    <div class="day">
+                        <br>
+                        <label for="wednesday">Wednesday</label>
+                        <span id="wednesday-date" class="date"></span>
+                        <input type="number" id="wednesday" name="wednesday" placeholder="Enter sales" required>
+                    </div>
+                    <div class="day">
+                        <br>
+                        <label for="thursday">Thursday</label>
+                        <span id="thursday-date" class="date"></span>
+                        <input type="number" id="thursday" name="thursday" placeholder="Enter sales" required>
+                    </div>
+                    <div class="day">
+                        <br>
+                        <label for="friday">Friday</label>
+                        <span id="friday-date" class="date"></span>
+                        <input type="number" id="friday" name="friday" placeholder="Enter sales" required>
+                    </div>
+                    <div class="day">
+                        <br>
+                        <label for="saturday">Saturday</label>
+                        <span id="saturday-date" class="date"></span>
+                        <input type="number" id="saturday" name="saturday" placeholder="Enter sales" required>
+                    </div>
+                    <div class="day">
+                        <br>
+                        <label for="sunday">Sunday</label>
+                        <span id="sunday-date" class="date"></span>
+                        <input type="number" id="sunday" name="sunday" placeholder="Enter sales" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Sales</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Fetch previous week dates
+    function getPreviousWeekDates() {
+        const today = new Date();
+        // Get the current date
+        const currentDate = new Date(today);
+        currentDate.setDate(today.getDate() - today.getDay() - 7); // Move to previous week's Monday
+        
+        // Array to hold the dates for Monday-Sunday of the previous week
+        const dates = [];
+        
+        for (let i = 0; i < 7; i++) {
+            const date = new Date(currentDate);
+            date.setDate(currentDate.getDate() + i);
+            dates.push(date.toISOString().split('T')[0]); // Format as YYYY-MM-DD
+        }
+        
+        return dates;
+    }
+    
+    const weekDates = getPreviousWeekDates();
+    
+    // Update placeholders or values with actual dates
+    document.getElementById('monday-date').textContent = weekDates[0];
+    document.getElementById('tuesday-date').textContent = weekDates[1];
+    document.getElementById('wednesday-date').textContent = weekDates[2];
+    document.getElementById('thursday-date').textContent = weekDates[3];
+    document.getElementById('friday-date').textContent = weekDates[4];
+    document.getElementById('saturday-date').textContent = weekDates[5];
+    document.getElementById('sunday-date').textContent = weekDates[6];
+    
+    </script>
+    
+
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-about">
+                <h3>About Cloud Concierge</h3>
+                <p>Your AI sales prediction software</p>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i>1395 Woodroffe Ave, Ottawa ON</p>
+                <p><i class="fas fa-envelope"></i> support@cloudconcierge.com</p>
             </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-about">
-                    <h3>About Cloud Concierge</h3>
-                    <p>Your AI sales prediction software</p>
-                </div>
-                <div class="footer-contact">
-                    <h3>Contact Info</h3>
-                    <p><i class="fas fa-map-marker-alt"></i>1395 Woodroffe Ave, Ottawa ON</p>
-                    <p><i class="fas fa-envelope"></i> support@cloudconcierge.com</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Cloud Concierge. All rights reserved.</p>
-            </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Cloud Concierge. All rights reserved.</p>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <!-- Back to Top Button -->
-    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+<!-- Back to Top Button -->
+<a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
 
-    <!-- JavaScript -->
-    <script src="js/main.js"></script>
+<!-- JavaScript -->
+<script src="js/main.js"></script>
 
-    <script>
+<script>
     // Check if the token exists in localStorage
     const token = localStorage.getItem('token');
 
-    // if (!token) {
-    //     // Redirect to the login page if no token found
-    //     window.location.href = 'index.html';
-    // }
+    if (!token) {
+        // Redirect to the login page if no token found
+        window.location.href = 'index.html';
+    }
+
+    // Function to format the date as YYYY-MM-DD
+    function formatDate(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const year = date.getFullYear();
+        return `${year}-${month}-${day}`;
+    }
+
+    // Function to get the previous week's dates
+    function getPreviousWeekDates() {
+        const currentDate = new Date();
+        const dayOfWeek = currentDate.getDay();
+        const diffToSunday = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Calculate the difference to the previous Monday
+        currentDate.setDate(currentDate.getDate() - diffToSunday - 7); // Set the date to previous Monday
+
+        const previousWeekDates = [];
+        for (let i = 0; i < 7; i++) {
+            previousWeekDates.push(formatDate(new Date(currentDate)));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return previousWeekDates; // Returns an array with dates for Monday to Sunday
+    }
+
+    // Set the dates for the previous week dynamically
+    const previousWeekDates = getPreviousWeekDates();
+    document.getElementById('label-monday').textContent += ` (${previousWeekDates[0]})`;
+    document.getElementById('label-tuesday').textContent += ` (${previousWeekDates[1]})`;
+    document.getElementById('label-wednesday').textContent += ` (${previousWeekDates[2]})`;
+    document.getElementById('label-thursday').textContent += ` (${previousWeekDates[3]})`;
+    document.getElementById('label-friday').textContent += ` (${previousWeekDates[4]})`;
+    document.getElementById('label-saturday').textContent += ` (${previousWeekDates[5]})`;
+    document.getElementById('label-sunday').textContent += ` (${previousWeekDates[6]})`;
+
+    // Set restaurant name (you can update this dynamically later)
+    document.getElementById('restaurant-name').textContent = "Your Restaurant Name";
 
     document.getElementById('sales-form').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -124,6 +229,7 @@
         const data = await response.json();
         alert(data.message);
     });
-    </script>
+</script>
 </body>
 </html>
+      
