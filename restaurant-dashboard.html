@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Concierge </title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Dashboard-specific styles */
+        .dashboard-header {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .restaurant-name {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .dashboard-content {
+            padding: 40px 0;
+            background-color: #f8f9fa;
+            min-height: calc(100vh - 180px);
+        }
+
+        .prediction-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .prediction-title {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .prediction-title h2 {
+            margin-bottom: 0;
+        }
+
+        .last-updated {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .weekly-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .day-column {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            height: 100%;
+            transition: var(--transition);
+        }
+
+        .day-column:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .day-name {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+
+        .prediction {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .high {
+            color: #e53e3e;
+        }
+
+        .medium {
+            color: #ed8936;
+        }
+
+        .low {
+            color: #48bb78;
+        }
+
+        .prediction-label {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 10px;
+        }
+
+        .rush-time {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            background-color: #edf2f7;
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .prediction-details {
+            margin-top: 20px;
+            border-top: 1px solid #edf2f7;
+            padding-top: 20px;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+        }
+
+        .legend-high {
+            background-color: #e53e3e;
+        }
+
+        .legend-medium {
+            background-color: #ed8936;
+        }
+
+        .legend-low {
+            background-color: #48bb78;
+        }
+
+        .refresh-button {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: var(--transition);
+        }
+
+        .refresh-button:hover {
+            background-color: #3a45c0;
+        }
+
+        .notes {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fffbea;
+            border-left: 4px solid #f6e05e;
+            border-radius: 4px;
+        }
+
+        @media screen and (max-width: 991px) {
+            .weekly-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+            .weekly-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .weekly-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Cloud Concierge</h1>
+                </div>
+                <div class="restaurant-name">Restaurant Name</div>
+            </div>
+        </div>
+    </header>
+
+    <section class="dashboard-content">
+        <div class="container">
+          <div class="prediction-card">
+            <div class="prediction-title">
+              <h2>Weekly Rush Predictions</h2>
+            </div>
+            <p class="last-updated">Last updated: <span id="lastUpdated">June 10, 2025 at 9:15 AM</span></p>
+      
+            <div class="weekly-grid">
+              <!-- Monday -->
+              <div class="day-column">
+                <div class="day-name">Monday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction low">Low</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">45</div>
+                <div class="rush-time">Peak: 7:00 PM - 8:30 PM</div>
+                <div class="feedback"><button class="thumb-button thumbs-up" style="border:none; background:none; font-size: 24px; cursor:pointer;">
+                    <i class="fas fa-thumbs-up"></i>
+                  </button>
+                  <button class="thumb-button thumbs-down" style="border:none; background:none; font-size: 24px; cursor:pointer;">
+                    <i class="fas fa-thumbs-down"></i>
+                  </button>
+                  
+                </div>
+              </div>
+      
+              <!-- Tuesday -->
+              <div class="day-column">
+                <div class="day-name">Tuesday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction low">Low</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">52</div>
+                <div class="rush-time">Peak: 7:00 PM - 8:30 PM</div>
+                <div class="feedback">
+                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                </div>
+              </div>
+      
+              <!-- Wednesday -->
+              <div class="day-column">
+                <div class="day-name">Wednesday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction medium">Medium</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">78</div>
+                <div class="rush-time">Peak: 6:30 PM - 8:00 PM</div>
+                <div class="feedback">
+                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                </div>
+              </div>
+      
+              <!-- Thursday -->
+              <div class="day-column">
+                <div class="day-name">Thursday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction medium">Medium</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">85</div>
+                <div class="rush-time">Peak: 6:30 PM - 8:30 PM</div>
+                <div class="feedback">
+                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                </div>
+              </div>
+      
+              <!-- Friday -->
+              <div class="day-column">
+                <div class="day-name">Friday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction high">High</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">115</div>
+                <div class="rush-time">Peak: 7:00 PM - 9:30 PM</div>
+                <div class="feedback">
+                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                </div>
+              </div>
+      
+              <!-- Saturday -->
+              <div class="day-column">
+                <div class="day-name">Saturday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction high">High</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">130</div>
+                <div class="rush-time">Peak: 6:30 PM - 9:00 PM</div>
+                <div class="feedback">
+                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                </div>
+              </div>
+      
+              <!-- Sunday -->
+              <div class="day-column">
+                <div class="day-name">Sunday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction medium">Medium</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">90</div>
+                <div class="rush-time">Peak: 5:30 PM - 8:00 PM</div>
+                <div class="feedback">
+                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                </div>
+              </div>
+            </div>
+      
+            <div class="legend">
+              <div class="legend-item">
+                <div class="legend-color legend-high"></div>
+                <span>High (100+ guests)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color legend-medium"></div>
+                <span>Medium (60-99 guests)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color legend-low"></div>
+                <span>Low (0-59 guests)</span>
+              </div>
+            </div>
+      
+            <div class="prediction-details">
+              <h3>Prediction Details</h3>
+              <p>These predictions are calculated using a combination of:</p>
+              <ul>
+                <li>Historical reservation data</li>
+                <li>Weather forecasts</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <script>
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Add listeners to all thumbs-up and thumbs-down buttons
+  document.querySelectorAll('.day-column').forEach((column) => {
+    const day = column.querySelector('.day-name').textContent;
+    const expectedGuests = column.querySelectorAll('.prediction')[1].textContent;
+
+    const thumbsUp = column.querySelector('.thumbs-up');
+    const thumbsDown = column.querySelector('.thumbs-down');
+
+    // 👍 Thumbs Up
+    thumbsUp.addEventListener('click', () => {
+      const dialog = document.createElement('div');
+      dialog.className = 'feedback-dialog';
+      dialog.innerHTML = `
+        <div class="feedback-dialog-overlay"></div>
+        <div class="feedback-dialog-box">
+          <h3>Positive Feedback for ${day}</h3>
+          <label>Your feedback:</label>
+          <textarea id="positiveFeedback" rows="4" style="width:100%; padding:8px; font-size:0.9rem;"></textarea>
+          <button class="submit-feedback">Submit</button>
+        </div>
+      `;
+      document.body.appendChild(dialog);
+
+      dialog.querySelector('.submit-feedback').addEventListener('click', () => {
+        const message = dialog.querySelector('#positiveFeedback').value;
+
+        emailjs.send("service_in8qn0h", "template_g2pl6mb", {
+          day: day,
+          feedback: message
+        }).then(() => {
+          dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you'>Thank you!</div>";
+          setTimeout(() => dialog.remove(), 2000);
+        }).catch((error) => {
+          dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you' style='color:red;'>Failed to send.</div>";
+          console.error("EmailJS error:", error);
+        });
+      });
+
+      dialog.querySelector('.feedback-dialog-overlay').addEventListener('click', () => {
+        dialog.remove();
+      });
+    });
+
+    // 👎 Thumbs Down
+    thumbsDown.addEventListener('click', () => {
+      const dialog = document.createElement('div');
+      dialog.className = 'feedback-dialog';
+      dialog.innerHTML = `
+        <div class="feedback-dialog-overlay"></div>
+        <div class="feedback-dialog-box">
+          <div class="form-group">
+            <label>Expected Guests:</label>
+            <input type="number" value="${expectedGuests}" readonly>
+          </div>
+          <div class="form-group">
+            <label>Actual Guests:</label>
+            <input type="number" id="actualGuests" required>
+          </div>
+          <button class="submit-feedback">Submit</button>
+        </div>
+      `;
+      document.body.appendChild(dialog);
+
+      dialog.querySelector('.submit-feedback').addEventListener('click', () => {
+        const actualGuests = dialog.querySelector('#actualGuests').value;
+
+        emailjs.send("service_in8qn0h", "template_bljrzfg", {
+          day: day,
+          expected_guests: expectedGuests,
+          actual_guests: actualGuests
+        }).then(() => {
+          dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you'>Thank you!</div>";
+          setTimeout(() => dialog.remove(), 2000);
+        }).catch((error) => {
+          dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you' style='color:red;'>Failed to send.</div>";
+          console.error("EmailJS error:", error);
+        });
+      });
+
+      dialog.querySelector('.feedback-dialog-overlay').addEventListener('click', () => {
+        dialog.remove();
+      });
+    });
+  });
+});
+</script>
+
+        </script>
+        <!-- EmailJS Support -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+        <script>
+  (function() {
+    emailjs.init("Dsoxr26eHFkJyNkDV"); 
+  })();
+</script>
+
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        // This is where you would connect to your database in the future
+        // The following code is just a mockup to show where to integrate your actual database connection
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample function to fetch data from a database
+            function fetchRushPredictions() {
+                // In the future, this would be your actual database connection code
+                // For example, using fetch API to call your backend API:
+                
+                /*
+                fetch('/api/rush-predictions')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Process and display data
+                        updateDashboard(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching prediction data:', error);
+                    });
+                */
+                
+                // For now, simulate a data fetch with setTimeout
+                console.log("Fetching rush predictions (simulated)...");
+                
+                // This is where you would replace the dummy data with real database data
+                setTimeout(() => {
+                    // Dummy data - replace this with your actual database data
+                    const dummyData = {
+                        lastUpdated: new Date().toLocaleString(),
+                        days: [
+                            { day: "Monday", rushLevel: "Low", expectedGuests: 45, peakTime: "7:00 PM - 8:30 PM" },
+                            { day: "Tuesday", rushLevel: "Low", expectedGuests: 52, peakTime: "7:00 PM - 8:30 PM" },
+                            { day: "Wednesday", rushLevel: "Medium", expectedGuests: 78, peakTime: "6:30 PM - 8:00 PM" },
+                            { day: "Thursday", rushLevel: "Medium", expectedGuests: 85, peakTime: "6:30 PM - 8:30 PM" },
+                            { day: "Friday", rushLevel: "High", expectedGuests: 115, peakTime: "7:00 PM - 9:30 PM" },
+                            { day: "Saturday", rushLevel: "High", expectedGuests: 130, peakTime: "6:30 PM - 9:00 PM" },
+                            { day: "Sunday", rushLevel: "Medium", expectedGuests: 90, peakTime: "5:30 PM - 8:00 PM" }
+                        ]
+                    };
+                    
+                    updateDashboard(dummyData);
+                }, 1000);
+            }
+            
+            // Update the dashboard with new data
+            function updateDashboard(data) {
+                // Update last updated timestamp
+                document.getElementById('lastUpdated').textContent = data.lastUpdated;
+                
+                // Get all day columns
+                const dayColumns = document.querySelectorAll('.day-column');
+                
+                // Update each day column with data from the database
+                data.days.forEach((dayData, index) => {
+                    if (index < dayColumns.length) {
+                        const column = dayColumns[index];
+                        
+                        // Update rush level
+                        const rushLevelElement = column.querySelector('.prediction:nth-of-type(1)');
+                        rushLevelElement.textContent = dayData.rushLevel;
+                        rushLevelElement.className = 'prediction'; // Reset class
+                        rushLevelElement.classList.add(dayData.rushLevel.toLowerCase()); // Add appropriate class
+                        
+                        // Update expected guests
+                        const guestsElement = column.querySelector('.prediction:nth-of-type(2)');
+                        guestsElement.textContent = dayData.expectedGuests;
+                        
+                        // Update peak time
+                        const peakTimeElement = column.querySelector('.rush-time');
+                        peakTimeElement.textContent = 'Peak: ' + dayData.peakTime;
+                    }
+                });
+                
+                console.log("Dashboard updated with new data");
+            }
+            
+            // Initial data fetch
+            fetchRushPredictions();
+        });
+    </script>
+</body>
+</html> 
