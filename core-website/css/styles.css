@@ -167,7 +167,27 @@ img {
 
 .btn-text:hover i {
     transform: translateX(5px);
-}
+}.thumb-button {
+    border: none;
+    background: none;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  
+  .thumbs-up i {
+    color: #48bb78; /* green */
+  }
+  
+  .thumbs-down i {
+    color: #e53e3e; /* red */
+  }
+  
+  .thumb-button:hover {
+    transform: scale(1.2);
+    opacity: 0.85;
+  }
+  
 
 /* 
 ======================
@@ -906,3 +926,58 @@ img {
         padding: 10px 25px;
     }
 } 
+
+
+/* 
+======================
+   feedback 
+======================
+*/
+
+  .feedback-dialog {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+  }
+  .feedback-dialog-overlay {
+    position: absolute;
+    width: 100%; height: 100%;
+  }
+  .feedback-dialog-box {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1001;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    font-family: 'Poppins', sans-serif;
+  }
+  .feedback-dialog-box .form-group {
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+  .feedback-dialog-box label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+  }
+  
+  .feedback-dialog-box input {
+    width: 100%;
+    padding: 6px 8px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .thank-you {
+    text-align: center;
+    font-size: 1rem;
+    color: green;
+  }
