@@ -212,113 +212,244 @@
         </div>
     </header>
 
-    <!-- Dashboard Content -->
     <section class="dashboard-content">
         <div class="container">
-            <div class="prediction-card">
-                <div class="prediction-title">
-                    <h2>Weekly Rush Predictions</h2>
-                </div>
-                <p class="last-updated">Last updated: <span id="lastUpdated">June 10, 2025 at 9:15 AM</span></p>
-                
-                <div class="weekly-grid">
-                    <!-- Monday -->
-                    <div class="day-column">
-                        <div class="day-name">Monday</div>
-                        <div class="prediction-label">Rush Level</div>
-                        <div class="prediction low">Low</div>
-                        <div class="prediction-label">Expected Guests</div>
-                        <div class="prediction">45</div>
-                        <div class="rush-time">Peak: 7:00 PM - 8:30 PM</div>
-                    </div>
-                    
-                    <!-- Tuesday -->
-                    <div class="day-column">
-                        <div class="day-name">Tuesday</div>
-                        <div class="prediction-label">Rush Level</div>
-                        <div class="prediction low">Low</div>
-                        <div class="prediction-label">Expected Guests</div>
-                        <div class="prediction">52</div>
-                        <div class="rush-time">Peak: 7:00 PM - 8:30 PM</div>
-                    </div>
-                    
-                    <!-- Wednesday -->
-                    <div class="day-column">
-                        <div class="day-name">Wednesday</div>
-                        <div class="prediction-label">Rush Level</div>
-                        <div class="prediction medium">Medium</div>
-                        <div class="prediction-label">Expected Guests</div>
-                        <div class="prediction">78</div>
-                        <div class="rush-time">Peak: 6:30 PM - 8:00 PM</div>
-                    </div>
-                    
-                    <!-- Thursday -->
-                    <div class="day-column">
-                        <div class="day-name">Thursday</div>
-                        <div class="prediction-label">Rush Level</div>
-                        <div class="prediction medium">Medium</div>
-                        <div class="prediction-label">Expected Guests</div>
-                        <div class="prediction">85</div>
-                        <div class="rush-time">Peak: 6:30 PM - 8:30 PM</div>
-                    </div>
-                    
-                    <!-- Friday -->
-                    <div class="day-column">
-                        <div class="day-name">Friday</div>
-                        <div class="prediction-label">Rush Level</div>
-                        <div class="prediction high">High</div>
-                        <div class="prediction-label">Expected Guests</div>
-                        <div class="prediction">115</div>
-                        <div class="rush-time">Peak: 7:00 PM - 9:30 PM</div>
-                    </div>
-                    
-                    <!-- Saturday -->
-                    <div class="day-column">
-                        <div class="day-name">Saturday</div>
-                        <div class="prediction-label">Rush Level</div>
-                        <div class="prediction high">High</div>
-                        <div class="prediction-label">Expected Guests</div>
-                        <div class="prediction">130</div>
-                        <div class="rush-time">Peak: 6:30 PM - 9:00 PM</div>
-                    </div>
-                    
-                    <!-- Sunday -->
-                    <div class="day-column">
-                        <div class="day-name">Sunday</div>
-                        <div class="prediction-label">Rush Level</div>
-                        <div class="prediction medium">Medium</div>
-                        <div class="prediction-label">Expected Guests</div>
-                        <div class="prediction">90</div>
-                        <div class="rush-time">Peak: 5:30 PM - 8:00 PM</div>
-                    </div>
-                </div>
-                
-                <div class="legend">
-                    <div class="legend-item">
-                        <div class="legend-color legend-high"></div>
-                        <span>High (100+ guests)</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color legend-medium"></div>
-                        <span>Medium (60-99 guests)</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color legend-low"></div>
-                        <span>Low (0-59 guests)</span>
-                    </div>
-                </div>
-                
-                <div class="prediction-details">
-                    <h3>Prediction Details</h3>
-                    <p>These predictions are calculated using a combination of:</p>
-                    <ul>
-                        <li>Historical reservation data</li>
-                        <li>Weather forecasts</li>
-                    </ul>
-                </div>
+          <div class="prediction-card">
+            <div class="prediction-title">
+              <h2>Weekly Rush Predictions</h2>
             </div>
+            <p class="last-updated">Last updated: <span id="lastUpdated">June 10, 2025 at 9:15 AM</span></p>
+      
+            <div class="weekly-grid">
+              <!-- Monday -->
+              <div class="day-column">
+                <div class="day-name">Monday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction low">Low</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">45</div>
+                <div class="rush-time">Peak: 7:00 PM - 8:30 PM</div>
+                <div class="feedback"><button class="thumb-button thumbs-up" style="border:none; background:none; font-size: 24px; cursor:pointer;">
+                    <i class="fas fa-thumbs-up"></i>
+                  </button>
+                  <button class="thumb-button thumbs-down" style="border:none; background:none; font-size: 24px; cursor:pointer;">
+                    <i class="fas fa-thumbs-down"></i>
+                  </button>
+                  
+                </div>
+              </div>
+      
+              <!-- Tuesday -->
+              <div class="day-column">
+                <div class="day-name">Tuesday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction low">Low</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">52</div>
+                <div class="rush-time">Peak: 7:00 PM - 8:30 PM</div>
+                <div class="feedback">
+                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                </div>
+              </div>
+      
+              <!-- Wednesday -->
+              <div class="day-column">
+                <div class="day-name">Wednesday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction medium">Medium</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">78</div>
+                <div class="rush-time">Peak: 6:30 PM - 8:00 PM</div>
+                <div class="feedback">
+                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                </div>
+              </div>
+      
+              <!-- Thursday -->
+              <div class="day-column">
+                <div class="day-name">Thursday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction medium">Medium</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">85</div>
+                <div class="rush-time">Peak: 6:30 PM - 8:30 PM</div>
+                <div class="feedback">
+                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                </div>
+              </div>
+      
+              <!-- Friday -->
+              <div class="day-column">
+                <div class="day-name">Friday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction high">High</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">115</div>
+                <div class="rush-time">Peak: 7:00 PM - 9:30 PM</div>
+                <div class="feedback">
+                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                </div>
+              </div>
+      
+              <!-- Saturday -->
+              <div class="day-column">
+                <div class="day-name">Saturday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction high">High</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">130</div>
+                <div class="rush-time">Peak: 6:30 PM - 9:00 PM</div>
+                <div class="feedback">
+                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                </div>
+              </div>
+      
+              <!-- Sunday -->
+              <div class="day-column">
+                <div class="day-name">Sunday</div>
+                <div class="prediction-label">Rush Level</div>
+                <div class="prediction medium">Medium</div>
+                <div class="prediction-label">Expected Guests</div>
+                <div class="prediction">90</div>
+                <div class="rush-time">Peak: 5:30 PM - 8:00 PM</div>
+                <div class="feedback">
+                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                </div>
+              </div>
+            </div>
+      
+            <div class="legend">
+              <div class="legend-item">
+                <div class="legend-color legend-high"></div>
+                <span>High (100+ guests)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color legend-medium"></div>
+                <span>Medium (60-99 guests)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color legend-low"></div>
+                <span>Low (0-59 guests)</span>
+              </div>
+            </div>
+      
+            <div class="prediction-details">
+              <h3>Prediction Details</h3>
+              <p>These predictions are calculated using a combination of:</p>
+              <ul>
+                <li>Historical reservation data</li>
+                <li>Weather forecasts</li>
+              </ul>
+            </div>
+          </div>
         </div>
-    </section>
+      </section>
+      <script>
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Add listeners to all thumbs-up and thumbs-down buttons
+  document.querySelectorAll('.day-column').forEach((column) => {
+    const day = column.querySelector('.day-name').textContent;
+    const expectedGuests = column.querySelectorAll('.prediction')[1].textContent;
+
+    const thumbsUp = column.querySelector('.thumbs-up');
+    const thumbsDown = column.querySelector('.thumbs-down');
+
+    // 👍 Thumbs Up
+    thumbsUp.addEventListener('click', () => {
+      const dialog = document.createElement('div');
+      dialog.className = 'feedback-dialog';
+      dialog.innerHTML = `
+        <div class="feedback-dialog-overlay"></div>
+        <div class="feedback-dialog-box">
+          <h3>Positive Feedback for ${day}</h3>
+          <label>Your feedback:</label>
+          <textarea id="positiveFeedback" rows="4" style="width:100%; padding:8px; font-size:0.9rem;"></textarea>
+          <button class="submit-feedback">Submit</button>
+        </div>
+      `;
+      document.body.appendChild(dialog);
+
+      dialog.querySelector('.submit-feedback').addEventListener('click', () => {
+        const message = dialog.querySelector('#positiveFeedback').value;
+
+        emailjs.send("service_in8qn0h", "template_g2pl6mb", {
+          day: day,
+          feedback: message
+        }).then(() => {
+          dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you'>Thank you!</div>";
+          setTimeout(() => dialog.remove(), 2000);
+        }).catch((error) => {
+          dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you' style='color:red;'>Failed to send.</div>";
+          console.error("EmailJS error:", error);
+        });
+      });
+
+      dialog.querySelector('.feedback-dialog-overlay').addEventListener('click', () => {
+        dialog.remove();
+      });
+    });
+
+    // 👎 Thumbs Down
+    thumbsDown.addEventListener('click', () => {
+      const dialog = document.createElement('div');
+      dialog.className = 'feedback-dialog';
+      dialog.innerHTML = `
+        <div class="feedback-dialog-overlay"></div>
+        <div class="feedback-dialog-box">
+          <div class="form-group">
+            <label>Expected Guests:</label>
+            <input type="number" value="${expectedGuests}" readonly>
+          </div>
+          <div class="form-group">
+            <label>Actual Guests:</label>
+            <input type="number" id="actualGuests" required>
+          </div>
+          <button class="submit-feedback">Submit</button>
+        </div>
+      `;
+      document.body.appendChild(dialog);
+
+      dialog.querySelector('.submit-feedback').addEventListener('click', () => {
+        const actualGuests = dialog.querySelector('#actualGuests').value;
+
+        emailjs.send("service_in8qn0h", "template_bljrzfg", {
+          day: day,
+          expected_guests: expectedGuests,
+          actual_guests: actualGuests
+        }).then(() => {
+          dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you'>Thank you!</div>";
+          setTimeout(() => dialog.remove(), 2000);
+        }).catch((error) => {
+          dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you' style='color:red;'>Failed to send.</div>";
+          console.error("EmailJS error:", error);
+        });
+      });
+
+      dialog.querySelector('.feedback-dialog-overlay').addEventListener('click', () => {
+        dialog.remove();
+      });
+    });
+  });
+});
+</script>
+
+</script>
+<!-- EmailJS Support -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+(function() {
+emailjs.init("Dsoxr26eHFkJyNkDV"); 
+})();
+</script>
+
 
     <!-- Back to Top Button -->
     <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
