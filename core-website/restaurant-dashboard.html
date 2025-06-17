@@ -463,42 +463,13 @@ emailjs.init("Dsoxr26eHFkJyNkDV");
         document.addEventListener('DOMContentLoaded', function() {
             // Sample function to fetch data from a database
             function fetchRushPredictions() {
-                // In the future, this would be your actual database connection code
-                // For example, using fetch API to call your backend API:
-                
-                /*
-                fetch('/api/rush-predictions')
-                    .then(response => response.json())
-                    .then(data => {
-                        // Process and display data
-                        updateDashboard(data);
-                    })
-                    .catch(error => {
-                        console.error('Error fetching prediction data:', error);
-                    });
-                */
-                
-                // For now, simulate a data fetch with setTimeout
-                console.log("Fetching rush predictions (simulated)...");
-                
-                // This is where you would replace the dummy data with real database data
-                setTimeout(() => {
-                    // Dummy data - replace this with your actual database data
-                    const dummyData = {
-                        lastUpdated: new Date().toLocaleString(),
-                        days: [
-                            { day: "Monday", rushLevel: "Low", expectedGuests: 45, peakTime: "7:00 PM - 8:30 PM" },
-                            { day: "Tuesday", rushLevel: "Low", expectedGuests: 52, peakTime: "7:00 PM - 8:30 PM" },
-                            { day: "Wednesday", rushLevel: "Medium", expectedGuests: 78, peakTime: "6:30 PM - 8:00 PM" },
-                            { day: "Thursday", rushLevel: "Medium", expectedGuests: 85, peakTime: "6:30 PM - 8:30 PM" },
-                            { day: "Friday", rushLevel: "High", expectedGuests: 115, peakTime: "7:00 PM - 9:30 PM" },
-                            { day: "Saturday", rushLevel: "High", expectedGuests: 130, peakTime: "6:30 PM - 9:00 PM" },
-                            { day: "Sunday", rushLevel: "Medium", expectedGuests: 90, peakTime: "5:30 PM - 8:00 PM" }
-                        ]
-                    };
-                    
-                    updateDashboard(dummyData);
-                }, 1000);
+              fetch('http://localhost:5000/api/predict/predict-sales')
+             .then(response => response.json())
+            .then(data => updateDashboard(data))
+    .catch(error => {
+        console.error('Error fetching prediction data:', error);
+    });
+
             }
             
             // Update the dashboard with new data
