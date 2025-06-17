@@ -3,6 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 const salesRoutes = require('./routes/sales');
+const predictionRoute = require('./routes/predict_sales');
 const app = express();
 
 // CORS configuration
@@ -21,6 +22,8 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);  // Authentication routes
 app.use('/api/sales', salesRoutes); // Sales routes
+app.use('/api/predict', predictionRoute);
+
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://CloudConcierge:GeekSquad@cloudconcierge.tebviqc.mongodb.net/', {
