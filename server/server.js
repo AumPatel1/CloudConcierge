@@ -25,13 +25,13 @@ app.use('/api/sales', salesRoutes); // Sales routes
 app.use('/api/predict', predictionRoute);
 
 
-// MongoDB connection
-mongoose.connect('mongodb+srv://CloudConcierge:GeekSquad@cloudconcierge.tebviqc.mongodb.net/', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('Connected to MongoDB'))
-.catch((err) => console.log('Failed to connect to MongoDB:', err));
+mongoose.connect('mongodb+srv://CloudConcierge:GeekSquad@cloudconcierge.tebviqc.mongodb.net/cloudconciergeDB?retryWrites=true&w=majority&tls=true')
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => {
+    console.error('Failed to connect to MongoDB:', err.message);
+    console.error('Full error:', err);
+  });
+
 
 // Start the server
 app.listen(5000, () => {
