@@ -463,7 +463,7 @@ emailjs.init("Dsoxr26eHFkJyNkDV");
         document.addEventListener('DOMContentLoaded', function() {
             // Sample function to fetch data from a database
             function fetchRushPredictions() {
-              fetch('http://localhost:5000/api/predict/predict-sales')
+              fetch('http://localhost:5000/api/predict-sales')
              .then(response => response.json())
             .then(data => updateDashboard(data))
     .catch(error => {

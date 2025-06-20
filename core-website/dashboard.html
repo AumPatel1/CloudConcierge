@@ -209,7 +209,12 @@
             });
 
             const data = await response.json();
-            alert(data.message);
+            if (response.ok) {
+        // Redirect after successful submission
+        window.location.href = 'restaurant-dashboard.html';
+    } else {
+        alert(data.message || 'Failed to submit sales data.');
+    }
         });
     </script>
 </body>

@@ -2,9 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\core-website",
-    "\\core-website\\js",
+    "\\server",
     "\\src"
   ],
-  "SelectedNode": "\\core-website\\js\\main.js",
+  "SelectedNode": "\\core-website\\dashboard.html",
   "PreviewInSolutionExplorer": false
 }
