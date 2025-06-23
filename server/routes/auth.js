@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const verifyToken = require('../middleware/verifyToken'); // ✅ Make sure this is imported
 
 const router = express.Router();
 
@@ -54,6 +55,23 @@ router.post('/login', async (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
   }
+});
+
+// Profile route (requires authentication)
+router.get('/profile', verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).select('-password');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+  router.get('/test', (req, res) => {
+  res.send('Auth route is working');
+});
+
 });
 
 module.exports = router;
