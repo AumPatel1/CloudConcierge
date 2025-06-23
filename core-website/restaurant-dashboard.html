@@ -221,108 +221,97 @@
             <p class="last-updated">Last updated: <span id="lastUpdated">June 10, 2025 at 9:15 AM</span></p>
       
             <div class="weekly-grid">
-              <!-- Monday -->
-              <div class="day-column">
-                <div class="day-name">Monday</div>
-                <div class="prediction-label">Rush Level</div>
-                <div class="prediction low">Low</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">45</div>
-                <div class="rush-time">Peak: 7:00 PM - 8:30 PM</div>
-                <div class="feedback"><button class="thumb-button thumbs-up" style="border:none; background:none; font-size: 24px; cursor:pointer;">
-                    <i class="fas fa-thumbs-up"></i>
-                  </button>
-                  <button class="thumb-button thumbs-down" style="border:none; background:none; font-size: 24px; cursor:pointer;">
-                    <i class="fas fa-thumbs-down"></i>
-                  </button>
-                  
-                </div>
-              </div>
-      
-              <!-- Tuesday -->
-              <div class="day-column">
-                <div class="day-name">Tuesday</div>
-                <div class="prediction-label">Rush Level</div>
-                <div class="prediction low">Low</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">52</div>
-                <div class="rush-time">Peak: 7:00 PM - 8:30 PM</div>
-                <div class="feedback">
-                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
-                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
-                </div>
-              </div>
-      
-              <!-- Wednesday -->
-              <div class="day-column">
-                <div class="day-name">Wednesday</div>
-                <div class="prediction-label">Rush Level</div>
-                <div class="prediction medium">Medium</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">78</div>
-                <div class="rush-time">Peak: 6:30 PM - 8:00 PM</div>
-                <div class="feedback">
-                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
-                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
-                </div>
-              </div>
-      
-              <!-- Thursday -->
-              <div class="day-column">
-                <div class="day-name">Thursday</div>
-                <div class="prediction-label">Rush Level</div>
-                <div class="prediction medium">Medium</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">85</div>
-                <div class="rush-time">Peak: 6:30 PM - 8:30 PM</div>
-                <div class="feedback">
-                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
-                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
-                </div>
-              </div>
-      
-              <!-- Friday -->
-              <div class="day-column">
-                <div class="day-name">Friday</div>
-                <div class="prediction-label">Rush Level</div>
-                <div class="prediction high">High</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">115</div>
-                <div class="rush-time">Peak: 7:00 PM - 9:30 PM</div>
-                <div class="feedback">
-                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
-                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
-                </div>
-              </div>
-      
-              <!-- Saturday -->
-              <div class="day-column">
-                <div class="day-name">Saturday</div>
-                <div class="prediction-label">Rush Level</div>
-                <div class="prediction high">High</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">130</div>
-                <div class="rush-time">Peak: 6:30 PM - 9:00 PM</div>
-                <div class="feedback">
-                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
-                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
-                </div>
-              </div>
-      
-              <!-- Sunday -->
-              <div class="day-column">
-                <div class="day-name">Sunday</div>
-                <div class="prediction-label">Rush Level</div>
-                <div class="prediction medium">Medium</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">90</div>
-                <div class="rush-time">Peak: 5:30 PM - 8:00 PM</div>
-                <div class="feedback">
-                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
-                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
-                </div>
-              </div>
-            </div>
+  <!-- Loop for 7 days -->
+  <div class="day-column">
+    <div class="day-name">Monday</div>
+    <div class="prediction-label">Rush Level</div>
+    <div class="prediction rush-level"></div>
+    <div class="prediction-label">Expected Guests</div>
+    <div class="prediction expected-guests"></div>
+    <div class="rush-time">Peak: 7:00 PM - 8:30 PM</div>
+    <div class="feedback">
+      <button class="thumb-button thumbs-up" style="border:none; background:none; font-size: 24px; cursor:pointer;">
+        <i class="fas fa-thumbs-up"></i>
+      </button>
+      <button class="thumb-button thumbs-down" style="border:none; background:none; font-size: 24px; cursor:pointer;">
+        <i class="fas fa-thumbs-down"></i>
+      </button>
+    </div>
+  </div>
+  <div class="day-column">
+    <div class="day-name">Tuesday</div>
+    <div class="prediction-label">Rush Level</div>
+    <div class="prediction rush-level"></div>
+    <div class="prediction-label">Expected Guests</div>
+    <div class="prediction expected-guests"></div>
+    <div class="rush-time">Peak: 7:00 PM - 8:30 PM</div>
+    <div class="feedback">
+      <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+      <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+    </div>
+  </div>
+  <div class="day-column">
+    <div class="day-name">Wednesday</div>
+    <div class="prediction-label">Rush Level</div>
+    <div class="prediction rush-level"></div>
+    <div class="prediction-label">Expected Guests</div>
+    <div class="prediction expected-guests"></div>
+    <div class="rush-time">Peak: 6:30 PM - 8:00 PM</div>
+    <div class="feedback">
+      <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+      <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+    </div>
+  </div>
+  <div class="day-column">
+    <div class="day-name">Thursday</div>
+    <div class="prediction-label">Rush Level</div>
+    <div class="prediction rush-level"></div>
+    <div class="prediction-label">Expected Guests</div>
+    <div class="prediction expected-guests"></div>
+    <div class="rush-time">Peak: 6:30 PM - 8:30 PM</div>
+    <div class="feedback">
+      <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+      <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+    </div>
+  </div>
+  <div class="day-column">
+    <div class="day-name">Friday</div>
+    <div class="prediction-label">Rush Level</div>
+    <div class="prediction rush-level"></div>
+    <div class="prediction-label">Expected Guests</div>
+    <div class="prediction expected-guests"></div>
+    <div class="rush-time">Peak: 7:00 PM - 9:30 PM</div>
+    <div class="feedback">
+      <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+      <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+    </div>
+  </div>
+  <div class="day-column">
+    <div class="day-name">Saturday</div>
+    <div class="prediction-label">Rush Level</div>
+    <div class="prediction rush-level"></div>
+    <div class="prediction-label">Expected Guests</div>
+    <div class="prediction expected-guests"></div>
+    <div class="rush-time">Peak: 6:30 PM - 9:00 PM</div>
+    <div class="feedback">
+      <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+      <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+    </div>
+  </div>
+  <div class="day-column">
+    <div class="day-name">Sunday</div>
+    <div class="prediction-label">Rush Level</div>
+    <div class="prediction rush-level"></div>
+    <div class="prediction-label">Expected Guests</div>
+    <div class="prediction expected-guests"></div>
+    <div class="rush-time">Peak: 5:30 PM - 8:00 PM</div>
+    <div class="feedback">
+      <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+      <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+    </div>
+  </div>
+</div>
+
       
             <div class="legend">
               <div class="legend-item">
@@ -453,60 +442,89 @@ emailjs.init("Dsoxr26eHFkJyNkDV");
 
     <!-- Back to Top Button -->
     <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const latitude = 45.4215;
+  const longitude = -75.6972;
+  const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const dayColumns = document.querySelectorAll('.day-column');
 
-    <!-- JavaScript -->
-    <script src="js/main.js"></script>
-    <script>
-        // This is where you would connect to your database in the future
-        // The following code is just a mockup to show where to integrate your actual database connection
+  function getPreviousWeekDates() {
+    const currentDate = new Date();
+    const dayOfWeek = currentDate.getDay();
+    const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    currentDate.setDate(currentDate.getDate() - diffToMonday - 7);
+    const previousWeekDates = [];
+    for (let i = 0; i < 7; i++) {
+      previousWeekDates.push(currentDate.toISOString().split('T')[0]);
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return previousWeekDates;
+  }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Sample function to fetch data from a database
-            function fetchRushPredictions() {
-              fetch('http://localhost:5000/api/predict/predict-sales')
-             .then(response => response.json())
-            .then(data => updateDashboard(data))
-    .catch(error => {
-        console.error('Error fetching prediction data:', error);
+  const previousWeekDates = getPreviousWeekDates();
+
+  async function fetchWeeklyTemperatures() {
+    const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${latitude}&longitude=${longitude}&start_date=${previousWeekDates[0]}&end_date=${previousWeekDates[6]}&daily=temperature_2m_mean&timezone=auto`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.daily?.temperature_2m_mean || [];
+  }
+
+  async function getPredictionForDay(day, temperature) {
+    const response = await fetch("https://aumpatel-predictingmodel.hf.space/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ day, temperature })
     });
+    const data = await response.json();
+    return data.prediction;
+  }
 
-            }
-            
-            // Update the dashboard with new data
-            function updateDashboard(data) {
-                // Update last updated timestamp
-                document.getElementById('lastUpdated').textContent = data.lastUpdated;
-                
-                // Get all day columns
-                const dayColumns = document.querySelectorAll('.day-column');
-                
-                // Update each day column with data from the database
-                data.days.forEach((dayData, index) => {
-                    if (index < dayColumns.length) {
-                        const column = dayColumns[index];
-                        
-                        // Update rush level
-                        const rushLevelElement = column.querySelector('.prediction:nth-of-type(1)');
-                        rushLevelElement.textContent = dayData.rushLevel;
-                        rushLevelElement.className = 'prediction'; // Reset class
-                        rushLevelElement.classList.add(dayData.rushLevel.toLowerCase()); // Add appropriate class
-                        
-                        // Update expected guests
-                        const guestsElement = column.querySelector('.prediction:nth-of-type(2)');
-                        guestsElement.textContent = dayData.expectedGuests;
-                        
-                        // Update peak time
-                        const peakTimeElement = column.querySelector('.rush-time');
-                        peakTimeElement.textContent = 'Peak: ' + dayData.peakTime;
-                    }
-                });
-                
-                console.log("Dashboard updated with new data");
-            }
-            
-            // Initial data fetch
-            fetchRushPredictions();
-        });
-    </script>
-</body>
-</html> 
+  function getRushLevel(guests) {
+    if (guests >= 100) return "High";
+    if (guests >= 60) return "Medium";
+    return "Low";
+  }
+
+  async function fetchSalesData() {
+    const token = localStorage.getItem("token");
+    const response = await fetch("http://localhost:5000/api/sales", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+    const sales = await response.json();
+    return sales; 
+  }
+
+  async function updateLivePredictions() {
+    const temps = await fetchWeeklyTemperatures();
+    const sales = await fetchSalesData();
+
+    for (let i = 0; i < 7; i++) {
+      const day = dayNames[i];
+      const lowerDay = day.toLowerCase();
+      const temp = temps[i];
+      const modelPrediction = await getPredictionForDay(day, temp);
+
+      const pastSales = parseFloat(sales[lowerDay]) || 0;
+      const combined = Math.round((modelPrediction + pastSales) / 2);
+      const rush = getRushLevel(combined);
+
+      const column = dayColumns[i];
+      const rushEl = column.querySelector('.rush-level');
+      const guestsEl = column.querySelector('.expected-guests');
+
+      rushEl.textContent = rush;
+      rushEl.className = `prediction rush-level ${rush.toLowerCase()}`;
+      guestsEl.textContent = combined;
+    }
+
+    document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+    console.log("Live predictions updated with model and sales data.");
+  }
+
+  updateLivePredictions();
+});
+</script>
