@@ -118,99 +118,99 @@
 
     <!-- Back to Top Button -->
     <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  function formatDate(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`;
+  }
 
-    <!-- JavaScript -->
-    <script src="js/main.js"></script>
+  function getPreviousWeekDates() {
+    const currentDate = new Date();
+    const dayOfWeek = currentDate.getDay();
+    const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    currentDate.setDate(currentDate.getDate() - diffToMonday - 7);
+    const previousWeekDates = [];
+    for (let i = 0; i < 7; i++) {
+      previousWeekDates.push(formatDate(new Date(currentDate)));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return previousWeekDates;
+  }
 
-    <script>
-        const token = localStorage.getItem('token');
-        if (!token) {
-            window.location.href = 'index.html';
-        }
+  const previousWeekDates = getPreviousWeekDates();
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-        function formatDate(date) {
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${year}-${month}-${day}`;
-        }
+  // Populate dates in the form
+  days.forEach((day, index) => {
+    const id = `${day.toLowerCase()}-date`;
+    const el = document.getElementById(id);
+    if (el) el.textContent = previousWeekDates[index];
+  });
 
-        function getPreviousWeekDates() {
-            const currentDate = new Date();
-            const dayOfWeek = currentDate.getDay();
-            const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-            currentDate.setDate(currentDate.getDate() - diffToMonday - 7);
-            const previousWeekDates = [];
-            for (let i = 0; i < 7; i++) {
-                previousWeekDates.push(formatDate(new Date(currentDate)));
-                currentDate.setDate(currentDate.getDate() + 1);
-            }
-            return previousWeekDates;
-        }
+  document.getElementById('restaurant-name').textContent = "Your Restaurant Name";
 
-        const previousWeekDates = getPreviousWeekDates();
+  async function fetchWeatherForPreviousWeek(lat, lon, dates) {
+    const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dates[0]}&end_date=${dates[6]}&daily=temperature_2m_mean&timezone=auto`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.daily ? data.daily.temperature_2m_mean : [];
+  }
 
-        // Update the UI with dates
-        document.getElementById('monday-date').textContent = previousWeekDates[0];
-        document.getElementById('tuesday-date').textContent = previousWeekDates[1];
-        document.getElementById('wednesday-date').textContent = previousWeekDates[2];
-        document.getElementById('thursday-date').textContent = previousWeekDates[3];
-        document.getElementById('friday-date').textContent = previousWeekDates[4];
-        document.getElementById('saturday-date').textContent = previousWeekDates[5];
-        document.getElementById('sunday-date').textContent = previousWeekDates[6];
+  const latitude = 45.4215;
+  const longitude = -75.6972;
 
-        document.getElementById('restaurant-name').textContent = "Your Restaurant Name";
-//API CALL FOR LAST WEEK 
-        async function fetchWeatherForPreviousWeek(lat, lon, dates) {
-            const start_date = dates[0];
-            const end_date = dates[6];
-            const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${start_date}&end_date=${end_date}&daily=temperature_2m_mean&timezone=auto`;
+  document.getElementById('sales-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-            const response = await fetch(url);
-            const data = await response.json();
+    const token = localStorage.getItem('token');
 
-            if (data.daily) {
-                console.log("Daily temperatures:", data.daily);
-                return data.daily.temperature_2m_mean;
-            } else {
-                console.error("Error fetching weather data:", data);
-                return [];
-            }
-        }
+    const salesData = {
+      monday: document.getElementById('monday').value,
+      tuesday: document.getElementById('tuesday').value,
+      wednesday: document.getElementById('wednesday').value,
+      thursday: document.getElementById('thursday').value,
+      friday: document.getElementById('friday').value,
+      saturday: document.getElementById('saturday').value,
+      sunday: document.getElementById('sunday').value,
+    };
 
-        const latitude = 45.4215;  // Ottawa
-        const longitude = -75.6972;
+    // Save sales to DB
+    await fetch('http://localhost:5000/api/sales', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+      },
+      body: JSON.stringify(salesData),
+    });
 
-        fetchWeatherForPreviousWeek(latitude, longitude, previousWeekDates)
-            .then(temps => {
-                console.log("Average daily temperatures (Mon–Sun):", temps);
-            });
+    // Fetch weather
+    const temps = await fetchWeatherForPreviousWeek(latitude, longitude, previousWeekDates);
 
-        document.getElementById('sales-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
+    // Get predictions
+    const predictions = [];
+    for (let i = 0; i < days.length; i++) {
+      const res = await fetch('https://aumpatel-predictingmodel.hf.space/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ day: days[i], temperature: temps[i] })
+      });
+      const data = await res.json();
+      predictions.push({
+        day: days[i],
+        guests: Math.round(data.prediction),
+        peakTime: "6:30 PM - 8:00 PM" // Default or you can modify dynamically
+      });
+    }
 
-            const salesData = {
-                monday: document.getElementById('monday').value,
-                tuesday: document.getElementById('tuesday').value,
-                wednesday: document.getElementById('wednesday').value,
-                thursday: document.getElementById('thursday').value,
-                friday: document.getElementById('friday').value,
-                saturday: document.getElementById('saturday').value,
-                sunday: document.getElementById('sunday').value,
-            };
+    // Save in local storage
+    localStorage.setItem('predictions', JSON.stringify(predictions));
 
-            const response = await fetch('http://localhost:5000/api/sales', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token,
-                },
-                body: JSON.stringify(salesData),
-            });
-
-            const data = await response.json();
-            alert(data.message);
-        });
-    </script>
-</body>
-</html>
+    // Redirect
+    window.location.href = "restaurant-dashboard.html";
+  });
+});
+</script>
