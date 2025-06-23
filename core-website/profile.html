@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile - Cloud Concierge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .profile-container {
+      background: white;
+      padding: 2rem 3rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .info-group {
+      margin-bottom: 1.2rem;
+    }
+    .info-label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .info-value {
+      font-size: 0.95rem;
+      color: #555;
+    }
+    input[type="file"] {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.7rem;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3a78c2;
+    }
+    .section-title {
+      margin-top: 2rem;
+      font-weight: 600;
+      color: #222;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <h2>My Profile</h2>
+
+    <div class="info-group">
+      <span class="info-label">Email:</span>
+      <span class="info-value" id="email">Loading...</span>
+    </div>
+
+    <div class="info-group">
+      <span class="info-label">Restaurant:</span>
+      <span class="info-value" id="restaurant">Loading...</span>
+    </div>
+
+    <div class="info-group">
+      <span class="info-label">Postal Code:</span>
+      <span class="info-value" id="postal">Loading...</span>
+    </div>
+
+    <div class="section-title">Upload Sales CSV</div>
+    <form id="csv-upload-form">
+      <input type="file" id="csv-file" accept=".csv" required />
+      <button type="submit">Upload CSV</button>
+    </form>
+  </div>
+
+  <script>
+    async function fetchUserProfile() {
+      try {
+        const res = await fetch('http://localhost:5000/api/auth/profile', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        if (!res.ok) throw new Error('Failed to fetch user profile.');
+
+        const user = await res.json();
+        document.getElementById('email').textContent = user.email || 'N/A';
+        document.getElementById('restaurant').textContent = user.restaurantName || 'N/A';
+        document.getElementById('postal').textContent = user.postalCode || 'N/A';
+      } catch (err) {
+        console.error(err);
+        alert('Could not load user profile.');
+      }
+    }
+
+    document.getElementById('csv-upload-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fileInput = document.getElementById('csv-file');
+      const file = fileInput.files[0];
+      if (!file) return alert('Please select a CSV file.');
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch('http://localhost:5000/api/sales/upload-csv', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: formData
+        });
+
+        const data = await res.json();
+        alert(data.message || 'Upload complete.');
+      } catch (err) {
+        console.error(err);
+        alert('CSV upload failed.');
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', fetchUserProfile);
+  </script>
+</body>
+</html>
