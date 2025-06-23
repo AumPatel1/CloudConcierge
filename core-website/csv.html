@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Upload Sales Data - Cloud Concierge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .upload-container {
+      background-color: #fff;
+      padding: 2rem 3rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      max-width: 450px;
+      width: 90%;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      color: #333;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    button {
+      width: 100%;
+      background-color: #4a90e2;
+      color: #fff;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #3a78c2;
+    }
+  </style>
+</head>
+<body>
+  <div class="upload-container">
+    <h2>Upload 1-Year Sales Data</h2>
+    <p>Please upload a CSV file containing your sales data. Columns should include <strong>date</strong> and <strong>sales</strong>.</p>
+    <input type="file" id="csv-file" accept=".csv" />
+    <button id="upload-btn">Upload CSV</button>
+  </div>
+
+  <script>
+    document.getElementById('upload-btn').addEventListener('click', async () => {
+      const file = document.getElementById('csv-file').files[0];
+      if (!file) return alert('Please select a CSV file.');
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const token = localStorage.getItem('token');
+
+      try {
+        const res = await fetch('http://localhost:5000/api/sales/upload-csv', {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+          body: formData
+        });
+
+        const result = await res.json();
+        alert(result.message || 'Upload successful!');
+
+        if (res.ok) {
+          window.location.href = './restaurant-dashboard.html';
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Upload failed. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>
