@@ -222,13 +222,10 @@
       
             <div class="weekly-grid">
               <!-- Monday -->
-              <div class="day-column">
-                <div class="day-name">Monday</div>
-                <div class="prediction-label">Rush Level</div>
-                <div class="prediction low">Low</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">45</div>
-                <div class="rush-time">Peak: 7:00 PM - 8:30 PM</div>
+                <div class="day-column">
+                    <div class="day-name">Monday</div>
+                    <div class="prediction-label">Expected Sales</div>
+                    <div id="monday-prediction" class="prediction"></div>
                 <div class="feedback"><button class="thumb-button thumbs-up" style="border:none; background:none; font-size: 24px; cursor:pointer;">
                     <i class="fas fa-thumbs-up"></i>
                   </button>
@@ -241,12 +238,9 @@
       
               <!-- Tuesday -->
               <div class="day-column">
-                <div class="day-name">Tuesday</div>
-                <div class="prediction-label">Rush Level</div>
                 <div class="prediction low">Low</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">52</div>
-                <div class="rush-time">Peak: 7:00 PM - 8:30 PM</div>
+                <div class="prediction-label">Expected Sales</div>
+                <div id="tuesday-prediction" class="prediction"></div>
                 <div class="feedback">
                   <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
                   <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
@@ -256,11 +250,8 @@
               <!-- Wednesday -->
               <div class="day-column">
                 <div class="day-name">Wednesday</div>
-                <div class="prediction-label">Rush Level</div>
-                <div class="prediction medium">Medium</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">78</div>
-                <div class="rush-time">Peak: 6:30 PM - 8:00 PM</div>
+                <div class="prediction-label">Expected Sales</div>
+                <div id="wednesday-prediction" class="prediction"></div>
                 <div class="feedback">
                   <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
                   <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
@@ -270,11 +261,8 @@
               <!-- Thursday -->
               <div class="day-column">
                 <div class="day-name">Thursday</div>
-                <div class="prediction-label">Rush Level</div>
-                <div class="prediction medium">Medium</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">85</div>
-                <div class="rush-time">Peak: 6:30 PM - 8:30 PM</div>
+                <div class="prediction-label">Expected Sales</div>
+                <div id="thursday-prediction" class="prediction"></div>
                 <div class="feedback">
                   <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
                   <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
@@ -284,11 +272,8 @@
               <!-- Friday -->
               <div class="day-column">
                 <div class="day-name">Friday</div>
-                <div class="prediction-label">Rush Level</div>
-                <div class="prediction high">High</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">115</div>
-                <div class="rush-time">Peak: 7:00 PM - 9:30 PM</div>
+                <div class="prediction-label">Expected Sales</div>
+                <div id="friday-prediction" class="prediction"></div>
                 <div class="feedback">
                   <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
                   <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
@@ -298,11 +283,8 @@
               <!-- Saturday -->
               <div class="day-column">
                 <div class="day-name">Saturday</div>
-                <div class="prediction-label">Rush Level</div>
-                <div class="prediction high">High</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">130</div>
-                <div class="rush-time">Peak: 6:30 PM - 9:00 PM</div>
+                <div class="prediction-label">Expected Sales</div>
+                <div id="saturday-prediction" class="prediction"></div>
                 <div class="feedback">
                   <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
                   <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
@@ -312,11 +294,8 @@
               <!-- Sunday -->
               <div class="day-column">
                 <div class="day-name">Sunday</div>
-                <div class="prediction-label">Rush Level</div>
-                <div class="prediction medium">Medium</div>
-                <div class="prediction-label">Expected Guests</div>
-                <div class="prediction">90</div>
-                <div class="rush-time">Peak: 5:30 PM - 8:00 PM</div>
+                <div class="prediction-label">Expected Sales</div>
+                <div id="sunday-prediction" class="prediction"></div>
                 <div class="feedback">
                   <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
                   <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
@@ -327,15 +306,15 @@
             <div class="legend">
               <div class="legend-item">
                 <div class="legend-color legend-high"></div>
-                <span>High (100+ guests)</span>
+                <span>High (100+ Sales)</span>
               </div>
               <div class="legend-item">
                 <div class="legend-color legend-medium"></div>
-                <span>Medium (60-99 guests)</span>
+                <span>Medium (60-99 Sales)</span>
               </div>
               <div class="legend-item">
                 <div class="legend-color legend-low"></div>
-                <span>Low (0-59 guests)</span>
+                <span>Low (0-59 Sales)</span>
               </div>
             </div>
       
@@ -357,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add listeners to all thumbs-up and thumbs-down buttons
   document.querySelectorAll('.day-column').forEach((column) => {
     const day = column.querySelector('.day-name').textContent;
-    const expectedGuests = column.querySelectorAll('.prediction')[1].textContent;
+    const expectedSales = column.querySelectorAll('.prediction')[1].textContent;
 
     const thumbsUp = column.querySelector('.thumbs-up');
     const thumbsDown = column.querySelector('.thumbs-down');
@@ -405,12 +384,12 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="feedback-dialog-overlay"></div>
         <div class="feedback-dialog-box">
           <div class="form-group">
-            <label>Expected Guests:</label>
-            <input type="number" value="${expectedGuests}" readonly>
+            <label>Expected Sales:</label>
+            <input type="number" value="${expectedSales}" readonly>
           </div>
           <div class="form-group">
-            <label>Actual Guests:</label>
-            <input type="number" id="actualGuests" required>
+            <label>Actual Sales:</label>
+            <input type="number" id="actualSales" required>
           </div>
           <button class="submit-feedback">Submit</button>
         </div>
@@ -418,12 +397,12 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.appendChild(dialog);
 
       dialog.querySelector('.submit-feedback').addEventListener('click', () => {
-        const actualGuests = dialog.querySelector('#actualGuests').value;
+        const actualSales = dialog.querySelector('#actualSales').value;
 
         emailjs.send("service_in8qn0h", "template_bljrzfg", {
           day: day,
-          expected_guests: expectedGuests,
-          actual_guests: actualGuests
+          expected_Sales: expectedSales,
+          actual_Sales: actualSales
         }).then(() => {
           dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you'>Thank you!</div>";
           setTimeout(() => dialog.remove(), 2000);
@@ -457,6 +436,18 @@ emailjs.init("Dsoxr26eHFkJyNkDV");
     <!-- JavaScript -->
     <script src="js/main.js"></script>
     <script>
+
+        const data = JSON.parse(localStorage.getItem('predictedSales'));
+
+        document.getElementById('monday-prediction').textContent = data.monday;
+        document.getElementById('tuesday-prediction').textContent = data.tuesday;
+        document.getElementById('wednesday-prediction').textContent = data.wednesday;
+        document.getElementById('thursday-prediction').textContent = data.thursday;
+        document.getElementById('friday-prediction').textContent = data.friday;
+        document.getElementById('saturday-prediction').textContent = data.saturday;
+        document.getElementById('sunday-prediction').textContent = data.sunday;
+
+
         // This is where you would connect to your database in the future
         // The following code is just a mockup to show where to integrate your actual database connection
 
@@ -491,9 +482,9 @@ emailjs.init("Dsoxr26eHFkJyNkDV");
                         rushLevelElement.className = 'prediction'; // Reset class
                         rushLevelElement.classList.add(dayData.rushLevel.toLowerCase()); // Add appropriate class
                         
-                        // Update expected guests
-                        const guestsElement = column.querySelector('.prediction:nth-of-type(2)');
-                        guestsElement.textContent = dayData.expectedGuests;
+                        // Update expected Sales
+                        const SalesElement = column.querySelector('.prediction:nth-of-type(2)');
+                        SalesElement.textContent = dayData.expectedSales;
                         
                         // Update peak time
                         const peakTimeElement = column.querySelector('.rush-time');

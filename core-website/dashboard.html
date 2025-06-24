@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cloud Concierge - Dashboard</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <body>
-    <!-- Header Section -->
+    <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <!-- Add logo here -->
-                </div>
+                <div class="logo"></div>
             </div>
         </div>
     </header>
 
-    <!-- Navigation Bar -->
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="container">
             <div class="navbar-content">
@@ -36,60 +36,17 @@
         </div>
     </nav>
 
-    <!-- Dashboard Section -->
+    <!-- Dashboard -->
     <section class="dashboard">
         <div class="container">
             <div class="dashboard-header">
                 <h1>Welcome to <span id="restaurant-name"></span>'s Dashboard</h1>
             </div>
-
             <div class="dashboard-content">
                 <h2>Sales Dashboard</h2>
                 <form id="sales-form">
-                    <div class="days-container">
-                        <div class="day">
-                            <br>
-                            <label for="monday">Monday</label>
-                            <span id="monday-date" class="date"></span>
-                            <input type="number" id="monday" name="monday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <br>
-                            <label for="tuesday">Tuesday</label>
-                            <span id="tuesday-date" class="date"></span>
-                            <input type="number" id="tuesday" name="tuesday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <br>
-                            <label for="wednesday">Wednesday</label>
-                            <span id="wednesday-date" class="date"></span>
-                            <input type="number" id="wednesday" name="wednesday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <br>
-                            <label for="thursday">Thursday</label>
-                            <span id="thursday-date" class="date"></span>
-                            <input type="number" id="thursday" name="thursday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <br>
-                            <label for="friday">Friday</label>
-                            <span id="friday-date" class="date"></span>
-                            <input type="number" id="friday" name="friday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <br>
-                            <label for="saturday">Saturday</label>
-                            <span id="saturday-date" class="date"></span>
-                            <input type="number" id="saturday" name="saturday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <br>
-                            <label for="sunday">Sunday</label>
-                            <span id="sunday-date" class="date"></span>
-                            <input type="number" id="sunday" name="sunday" placeholder="Enter sales" required>
-                        </div>
-                    </div>
+                    <div class="days-container" id="days-container"></div>
+
                     <button type="submit" class="btn btn-primary">Submit Sales</button>
                 </form>
             </div>
@@ -116,105 +73,118 @@
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
+    <!-- Back to Top -->
     <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
 
     <!-- JavaScript -->
-    <script src="js/main.js"></script>
-
     <script>
-        const token = localStorage.getItem('token');
-        if (!token) {
-            window.location.href = 'index.html';
-        }
+        const token = localStorage.getItem("token");
+        if (!token) window.location.href = "index.html";
 
+        document.getElementById("restaurant-name").textContent = "Your Restaurant Name";
+
+        // Days array
+        const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+        const container = document.getElementById("days-container");
+
+        // Generate inputs dynamically
+        days.forEach((day) => {
+            const capitalized = day.charAt(0).toUpperCase() + day.slice(1);
+            container.innerHTML += `
+            <div class="day">
+              <br />
+              <label for="${day}">${capitalized}</label>
+              <input
+                type="number"
+                id="${day}"
+                name="${day}"
+                placeholder="Enter sales"
+                required
+              />
+            </div>`;
+        });
+
+        // Format date as YYYY-MM-DD
         function formatDate(date) {
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${year}-${month}-${day}`;
+            const day = String(date.getDate()).padStart(2, "0");
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            return `${date.getFullYear()}-${month}-${day}`;
         }
 
+        // Get previous week's Monday–Sunday dates
         function getPreviousWeekDates() {
-            const currentDate = new Date();
-            const dayOfWeek = currentDate.getDay();
+            const current = new Date();
+            const dayOfWeek = current.getDay();
             const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-            currentDate.setDate(currentDate.getDate() - diffToMonday - 7);
-            const previousWeekDates = [];
-            for (let i = 0; i < 7; i++) {
-                previousWeekDates.push(formatDate(new Date(currentDate)));
-                currentDate.setDate(currentDate.getDate() + 1);
-            }
-            return previousWeekDates;
+            current.setDate(current.getDate() - diffToMonday - 7);
+            return Array.from({ length: 7 }, () => {
+                const d = new Date(current);
+                current.setDate(current.getDate() + 1);
+                return formatDate(d);
+            });
         }
 
-        const previousWeekDates = getPreviousWeekDates();
-
-        // Update the UI with dates
-        document.getElementById('monday-date').textContent = previousWeekDates[0];
-        document.getElementById('tuesday-date').textContent = previousWeekDates[1];
-        document.getElementById('wednesday-date').textContent = previousWeekDates[2];
-        document.getElementById('thursday-date').textContent = previousWeekDates[3];
-        document.getElementById('friday-date').textContent = previousWeekDates[4];
-        document.getElementById('saturday-date').textContent = previousWeekDates[5];
-        document.getElementById('sunday-date').textContent = previousWeekDates[6];
-
-        document.getElementById('restaurant-name').textContent = "Your Restaurant Name";
-//API CALL FOR LAST WEEK 
-        async function fetchWeatherForPreviousWeek(lat, lon, dates) {
-            const start_date = dates[0];
-            const end_date = dates[6];
-            const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${start_date}&end_date=${end_date}&daily=temperature_2m_mean&timezone=auto`;
-
-            const response = await fetch(url);
-            const data = await response.json();
-
-            if (data.daily) {
-                console.log("Daily temperatures:", data.daily);
-                return data.daily.temperature_2m_mean;
-            } else {
-                console.error("Error fetching weather data:", data);
-                return [];
-            }
+        // Get next week's Monday–Sunday dates
+        function getNextWeekDates() {
+            const current = new Date();
+            const dayOfWeek = current.getDay();
+            const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+            current.setDate(current.getDate() - diffToMonday + 7);
+            return Array.from({ length: 7 }, () => {
+                const d = new Date(current);
+                current.setDate(current.getDate() + 1);
+                return formatDate(d);
+            });
         }
-
-        const latitude = 45.4215;  // Ottawa
+        // Ottawa's coordinates
+        const latitude = 45.4215;
         const longitude = -75.6972;
 
-        fetchWeatherForPreviousWeek(latitude, longitude, previousWeekDates)
-            .then(temps => {
-                console.log("Average daily temperatures (Mon–Sun):", temps);
-            });
+        const lastWeekDates = getPreviousWeekDates();
+        const nextWeekDates = getNextWeekDates();
 
-        document.getElementById('sales-form').addEventListener('submit', async (e) => {
+        // Fetch forecast weather (works for past and future dates)
+        async function fetchForecastWeather(startDate, endDate) {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&start_date=${startDate}&end_date=${endDate}&daily=temperature_2m_max&timezone=America/New_York`;
+            const response = await fetch(url);
+            const data = await response.json();
+            if (!data.daily || !data.daily.temperature_2m_max) {
+                console.error("Forecast weather API failed or no data", data);
+                return [];
+            }
+            return data.daily.temperature_2m_max;
+        }
+
+        document.getElementById("sales-form").addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            const salesData = {
-                monday: document.getElementById('monday').value,
-                tuesday: document.getElementById('tuesday').value,
-                wednesday: document.getElementById('wednesday').value,
-                thursday: document.getElementById('thursday').value,
-                friday: document.getElementById('friday').value,
-                saturday: document.getElementById('saturday').value,
-                sunday: document.getElementById('sunday').value,
-            };
+            const salesData = Object.fromEntries(
+                days.map((day) => [day, Number(document.getElementById(day).value)])
+            );
 
-            const response = await fetch('http://localhost:5000/api/sales', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token,
-                },
-                body: JSON.stringify(salesData),
-            });
+            // Fetch last week's and next week's temps
+            const [lastTemps, nextTemps] = await Promise.all([
+                fetchForecastWeather(lastWeekDates[0], lastWeekDates[6]),
+                fetchForecastWeather(nextWeekDates[0], nextWeekDates[6]),
+            ]);
 
-            const data = await response.json();
-            if (response.ok) {
-        // Redirect after successful submission
-        window.location.href = 'restaurant-dashboard.html';
-    } else {
-        alert(data.message || 'Failed to submit sales data.');
-    }
+            const avg = (arr) => (arr.length ? arr.reduce((sum, val) => sum + val, 0) / arr.length : 0);
+            const avgLast = avg(lastTemps);
+            const avgNext = avg(nextTemps);
+
+            if (!avgLast || !avgNext) {
+                alert("Could not fetch temperature data correctly.");
+                return;
+            }
+
+            const ratio = avgNext / avgLast;
+
+            const predictedSales = Object.fromEntries(
+                Object.entries(salesData).map(([day, value]) => [day, Math.round(value * ratio)])
+            );
+
+            localStorage.setItem("predictedSales", JSON.stringify(predictedSales));
+            window.location.href = "restaurant-dashboard.html";
         });
     </script>
 </body>
