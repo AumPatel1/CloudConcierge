@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Concierge </title>
-    <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cloud Concierge</title>
+    <link rel="stylesheet" href="css/styles.css" />
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         /* Dashboard-specific styles */
         .dashboard-header {
@@ -17,7 +17,6 @@
             padding: 20px 0;
             position: relative;
         }
-
         .restaurant-name {
             position: absolute;
             top: 20px;
@@ -25,13 +24,11 @@
             font-size: 1.2rem;
             font-weight: 600;
         }
-
         .dashboard-content {
             padding: 40px 0;
             background-color: #f8f9fa;
             min-height: calc(100vh - 180px);
         }
-
         .prediction-card {
             background-color: #fff;
             border-radius: 10px;
@@ -39,30 +36,25 @@
             padding: 30px;
             margin-bottom: 30px;
         }
-
         .prediction-title {
             margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .prediction-title h2 {
             margin-bottom: 0;
         }
-
         .last-updated {
             font-size: 0.9rem;
             color: #718096;
         }
-
         .weekly-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 15px;
             margin-top: 20px;
         }
-
         .day-column {
             background-color: var(--light-color);
             border-radius: 8px;
@@ -71,42 +63,34 @@
             height: 100%;
             transition: var(--transition);
         }
-
         .day-column:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
         }
-
         .day-name {
             font-weight: 600;
             margin-bottom: 10px;
             color: var(--dark-color);
         }
-
         .prediction {
             font-size: 2rem;
             font-weight: 700;
             margin: 10px 0;
         }
-
         .high {
             color: #e53e3e;
         }
-
         .medium {
             color: #ed8936;
         }
-
         .low {
             color: #48bb78;
         }
-
         .prediction-label {
             font-size: 0.9rem;
             color: #718096;
             margin-bottom: 10px;
         }
-
         .rush-time {
             margin-top: 15px;
             font-size: 0.9rem;
@@ -115,13 +99,11 @@
             border-radius: 20px;
             display: inline-block;
         }
-
         .prediction-details {
             margin-top: 20px;
             border-top: 1px solid #edf2f7;
             padding-top: 20px;
         }
-
         .legend {
             display: flex;
             justify-content: center;
@@ -129,31 +111,25 @@
             gap: 20px;
             flex-wrap: wrap;
         }
-
         .legend-item {
             display: flex;
             align-items: center;
             gap: 5px;
         }
-
         .legend-color {
             width: 15px;
             height: 15px;
             border-radius: 50%;
         }
-
         .legend-high {
             background-color: #e53e3e;
         }
-
         .legend-medium {
             background-color: #ed8936;
         }
-
         .legend-low {
             background-color: #48bb78;
         }
-
         .refresh-button {
             background-color: var(--primary-color);
             color: #fff;
@@ -167,11 +143,9 @@
             gap: 5px;
             transition: var(--transition);
         }
-
         .refresh-button:hover {
             background-color: #3a45c0;
         }
-
         .notes {
             margin-top: 20px;
             padding: 15px;
@@ -179,23 +153,60 @@
             border-left: 4px solid #f6e05e;
             border-radius: 4px;
         }
-
         @media screen and (max-width: 991px) {
             .weekly-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
         }
-
         @media screen and (max-width: 767px) {
             .weekly-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
         @media screen and (max-width: 480px) {
             .weekly-grid {
                 grid-template-columns: 1fr;
             }
+        }
+        /* Feedback dialog styling */
+        .feedback-dialog {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .feedback-dialog-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .feedback-dialog-box {
+            position: relative;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            z-index: 10000;
+        }
+        .thank-you {
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, textarea {
+            width: 100%;
+            padding: 8px;
+            font-size: 1rem;
         }
     </style>
 </head>
@@ -218,7 +229,7 @@
             <div class="prediction-title">
               <h2>Weekly Rush Predictions</h2>
             </div>
-            <p class="last-updated">Last updated: <span id="lastUpdated">June 10, 2025 at 9:15 AM</span></p>
+            <p class="last-updated">Last updated: <span id="lastUpdated">Loading...</span></p>
       
             <div class="weekly-grid">
               <!-- Monday -->
@@ -226,25 +237,25 @@
                     <div class="day-name">Monday</div>
                     <div class="prediction-label">Expected Sales</div>
                     <div id="monday-prediction" class="prediction"></div>
-                <div class="feedback"><button class="thumb-button thumbs-up" style="border:none; background:none; font-size: 24px; cursor:pointer;">
-                    <i class="fas fa-thumbs-up"></i>
-                  </button>
-                  <button class="thumb-button thumbs-down" style="border:none; background:none; font-size: 24px; cursor:pointer;">
-                    <i class="fas fa-thumbs-down"></i>
-                  </button>
-                  
+                    <div class="feedback">
+                      <button class="thumb-button thumbs-up" style="border:none; background:none; font-size: 24px; cursor:pointer;">
+                          <i class="fas fa-thumbs-up"></i>
+                      </button>
+                      <button class="thumb-button thumbs-down" style="border:none; background:none; font-size: 24px; cursor:pointer;">
+                          <i class="fas fa-thumbs-down"></i>
+                      </button>
+                    </div>
                 </div>
-              </div>
       
               <!-- Tuesday -->
               <div class="day-column">
                   <div class="day-name">Tuesday</div>
-                <div class="prediction-label">Expected Sales</div>
-                <div id="tuesday-prediction" class="prediction"></div>
-                <div class="feedback">
-                  <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
-                  <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
-                </div>
+                  <div class="prediction-label">Expected Sales</div>
+                  <div id="tuesday-prediction" class="prediction"></div>
+                  <div class="feedback">
+                    <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                    <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                  </div>
               </div>
       
               <!-- Wednesday -->
@@ -329,178 +340,153 @@
           </div>
         </div>
       </section>
+
+      <!-- EmailJS Support -->
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
       <script>
+        (function () {
+          emailjs.init("Dsoxr26eHFkJyNkDV");
+        })();
+      </script>
 
-          const data = JSON.parse(localStorage.getItem('predictedSales'));
-
-          document.getElementById('monday-prediction').textContent = data.monday;
-          document.getElementById('tuesday-prediction').textContent = data.tuesday;
-          document.getElementById('wednesday-prediction').textContent = data.wednesday;
-          document.getElementById('thursday-prediction').textContent = data.thursday;
-          document.getElementById('friday-prediction').textContent = data.friday;
-          document.getElementById('saturday-prediction').textContent = data.saturday;
-          document.getElementById('sunday-prediction').textContent = data.sunday;
-
-
+      <!-- Scripts -->
+      <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Add listeners to all thumbs-up and thumbs-down buttons
-  document.querySelectorAll('.day-column').forEach((column) => {
-    const day = column.querySelector('.day-name').textContent;
-      const expectedSalesElement = column.querySelector('.prediction');
-      const expectedSales = expectedSalesElement ? expectedSalesElement.textContent : '';
+  console.log('DOM fully loaded and parsed.');
 
-    const thumbsUp = column.querySelector('.thumbs-up');
-    const thumbsDown = column.querySelector('.thumbs-down');
+  // Load predicted sales from localStorage
+  const data = JSON.parse(localStorage.getItem('predictedSales'));
+  console.log('Loaded predictedSales from localStorage:', data);
 
-    // 👍 Thumbs Up
-    thumbsUp.addEventListener('click', () => {
-      const dialog = document.createElement('div');
-      dialog.className = 'feedback-dialog';
-      dialog.innerHTML = `
-        <div class="feedback-dialog-overlay"></div>
-        <div class="feedback-dialog-box">
-          <h3>Positive Feedback for ${day}</h3>
-          <label>Your feedback:</label>
-          <textarea id="positiveFeedback" rows="4" style="width:100%; padding:8px; font-size:0.9rem;"></textarea>
-          <button class="submit-feedback">Submit</button>
-        </div>
-      `;
-      document.body.appendChild(dialog);
+  if (!data) {
+    console.warn('No predicted sales data found in localStorage.');
+    document.getElementById('lastUpdated').textContent = 'No data available';
+    return;
+  }
 
-      dialog.querySelector('.submit-feedback').addEventListener('click', () => {
-        const message = dialog.querySelector('#positiveFeedback').value;
+  // Set lastUpdated text
+  if (data.lastUpdated) {
+    console.log('Using stored lastUpdated:', data.lastUpdated);
+    document.getElementById('lastUpdated').textContent = data.lastUpdated;
+  } else {
+    const now = new Date().toLocaleString();
+    console.log('No lastUpdated in data, using current date/time:', now);
+    document.getElementById('lastUpdated').textContent = now;
+  }
 
-        emailjs.send("service_in8qn0h", "template_g2pl6mb", {
-          day: day,
-          feedback: message
-        }).then(() => {
-          dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you'>Thank you!</div>";
-          setTimeout(() => dialog.remove(), 2000);
-        }).catch((error) => {
-          dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you' style='color:red;'>Failed to send.</div>";
-          console.error("EmailJS error:", error);
-        });
-      });
+  const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
-      dialog.querySelector('.feedback-dialog-overlay').addEventListener('click', () => {
-        dialog.remove();
-      });
-    });
+  // Populate predicted sales per day
+  days.forEach(day => {
+    const elem = document.getElementById(`${day}-prediction`);
+    if (!elem) {
+      console.warn(`Element with id "${day}-prediction" not found in DOM.`);
+      return;
+    }
 
-    // 👎 Thumbs Down
-    thumbsDown.addEventListener('click', () => {
-      const dialog = document.createElement('div');
-      dialog.className = 'feedback-dialog';
-      dialog.innerHTML = `
-        <div class="feedback-dialog-overlay"></div>
-        <div class="feedback-dialog-box">
-          <div class="form-group">
-            <label>Expected Sales:</label>
-            <input type="number" value="${expectedSales}" readonly>
-          </div>
-          <div class="form-group">
-            <label>Actual Sales:</label>
-            <input type="number" id="actualSales" required>
-          </div>
-          <button class="submit-feedback">Submit</button>
-        </div>
-      `;
-      document.body.appendChild(dialog);
+    if (data[day] === undefined) {
+      console.warn(`No predicted sales data found for "${day}".`);
+      elem.textContent = 'N/A';
+      return;
+    }
 
-      dialog.querySelector('.submit-feedback').addEventListener('click', () => {
-        const actualSales = dialog.querySelector('#actualSales').value;
-
-        emailjs.send("service_in8qn0h", "template_bljrzfg", {
-          day: day,
-          expected_Sales: expectedSales,
-          actual_Sales: actualSales
-        }).then(() => {
-          dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you'>Thank you!</div>";
-          setTimeout(() => dialog.remove(), 2000);
-        }).catch((error) => {
-          dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you' style='color:red;'>Failed to send.</div>";
-          console.error("EmailJS error:", error);
-        });
-      });
-
-      dialog.querySelector('.feedback-dialog-overlay').addEventListener('click', () => {
-        dialog.remove();
-      });
-    });
+    console.log(`Setting prediction for ${day}:`, data[day]);
+    elem.textContent = data[day];
   });
 });
-</script>
-
-</script>
-<!-- EmailJS Support -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>
-(function() {
-emailjs.init("Dsoxr26eHFkJyNkDV"); 
-})();
-</script>
 
 
-    <!-- Back to Top Button -->
-    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+          // Setup feedback buttons
+          document.querySelectorAll('.day-column').forEach((column) => {
+            const day = column.querySelector('.day-name').textContent;
+            const expectedSalesElement = column.querySelector('.prediction');
+            const expectedSales = expectedSalesElement ? expectedSalesElement.textContent : '';
 
-    <!-- JavaScript -->
-    <script src="js/main.js"></script>
-    <script>
+            const thumbsUp = column.querySelector('.thumbs-up');
+            const thumbsDown = column.querySelector('.thumbs-down');
 
+            // 👍 Thumbs Up
+            thumbsUp.addEventListener('click', () => {
+              const dialog = document.createElement('div');
+              dialog.className = 'feedback-dialog';
+              dialog.innerHTML = `
+                <div class="feedback-dialog-overlay"></div>
+                <div class="feedback-dialog-box">
+                  <h3>Positive Feedback for ${day}</h3>
+                  <label>Your feedback:</label>
+                  <textarea id="positiveFeedback" rows="4" style="width:100%; padding:8px; font-size:0.9rem;"></textarea>
+                  <button class="submit-feedback">Submit</button>
+                </div>
+              `;
+              document.body.appendChild(dialog);
 
+              dialog.querySelector('.submit-feedback').addEventListener('click', () => {
+                const message = dialog.querySelector('#positiveFeedback').value;
 
-
-        // This is where you would connect to your database in the future
-        // The following code is just a mockup to show where to integrate your actual database connection
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Sample function to fetch data from a database
-            function fetchRushPredictions() {
-              fetch('http://localhost:5000/api/predict-sales')
-             .then(response => response.json())
-            .then(data => updateDashboard(data))
-    .catch(error => {
-        console.error('Error fetching prediction data:', error);
-    });
-
-            }
-            
-            // Update the dashboard with new data
-            function updateDashboard(data) {
-                // Update last updated timestamp
-                document.getElementById('lastUpdated').textContent = data.lastUpdated;
-                
-                // Get all day columns
-                const dayColumns = document.querySelectorAll('.day-column');
-                
-                // Update each day column with data from the database
-                data.days.forEach((dayData, index) => {
-                    if (index < dayColumns.length) {
-                        const column = dayColumns[index];
-                        
-                        // Update rush level
-                        const rushLevelElement = column.querySelector('.prediction:nth-of-type(1)');
-                        rushLevelElement.textContent = dayData.rushLevel;
-                        rushLevelElement.className = 'prediction'; // Reset class
-                        rushLevelElement.classList.add(dayData.rushLevel.toLowerCase()); // Add appropriate class
-                        
-                        // Update expected Sales
-                        const SalesElement = column.querySelector('.prediction:nth-of-type(2)');
-                        SalesElement.textContent = dayData.expectedSales;
-                        
-                        // Update peak time
-                        const peakTimeElement = column.querySelector('.rush-time');
-                        peakTimeElement.textContent = 'Peak: ' + dayData.peakTime;
-                    }
+                emailjs.send("service_in8qn0h", "template_g2pl6mb", {
+                  day: day,
+                  feedback: message
+                }).then(() => {
+                  dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you'>Thank you!</div>";
+                  setTimeout(() => dialog.remove(), 2000);
+                }).catch((error) => {
+                  dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you' style='color:red;'>Failed to send.</div>";
+                  console.error("EmailJS error:", error);
                 });
-                
-                console.log("Dashboard updated with new data");
-            }
-            
-            // Initial data fetch
-            fetchRushPredictions();
-        });
-    </script>
+              });
+
+              dialog.querySelector('.feedback-dialog-overlay').addEventListener('click', () => {
+                dialog.remove();
+              });
+            });
+
+            // 👎 Thumbs Down
+            thumbsDown.addEventListener('click', () => {
+              const dialog = document.createElement('div');
+              dialog.className = 'feedback-dialog';
+              dialog.innerHTML = `
+                <div class="feedback-dialog-overlay"></div>
+                <div class="feedback-dialog-box">
+                  <div class="form-group">
+                    <label>Expected Sales:</label>
+                    <input type="number" value="${expectedSales}" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label>Actual Sales:</label>
+                    <input type="number" id="actualSales" required>
+                  </div>
+                  <button class="submit-feedback">Submit</button>
+                </div>
+              `;
+              document.body.appendChild(dialog);
+
+              dialog.querySelector('.submit-feedback').addEventListener('click', () => {
+                const actualSales = dialog.querySelector('#actualSales').value;
+
+                emailjs.send("service_in8qn0h", "template_bljrzfg", {
+                  day: day,
+                  expected_Sales: expectedSales,
+                  actual_Sales: actualSales
+                }).then(() => {
+                  dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you'>Thank you!</div>";
+                  setTimeout(() => dialog.remove(), 2000);
+                }).catch((error) => {
+                  dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you' style='color:red;'>Failed to send.</div>";
+                  console.error("EmailJS error:", error);
+                });
+              });
+
+              dialog.querySelector('.feedback-dialog-overlay').addEventListener('click', () => {
+                dialog.remove();
+              });
+            });
+          });
+      </script>
+
+      <!-- Back to Top Button -->
+      <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+      <!-- Your other scripts -->
+      <script src="js/main.js"></script>
 </body>
-</html> 
+</html>

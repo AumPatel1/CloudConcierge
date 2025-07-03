@@ -5,12 +5,14 @@ const authRoutes = require('./routes/auth');
 const salesRoutes = require('./routes/sales');
 const predictionRoute = require('./routes/predict_sales');
 const app = express();
+const fetch = require('node-fetch'); // npm install node-fetch if not already
 
 // CORS configuration
 const corsOptions = {
-  origin: '*', // Allow frontend origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  origin: '*', // Allow all origins or specify frontend URL here for more security
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Include OPTIONS for preflight
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200, // For legacy browsers
 };
 
 // Use CORS middleware
@@ -20,9 +22,39 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
-app.use('/api/auth', authRoutes);  // Authentication routes
-app.use('/api/sales', salesRoutes); // Sales routes
+app.use('/api/auth', authRoutes);
+app.use('/api/sales', salesRoutes);
 app.use('/api/predict', predictionRoute);
+
+app.post('/proxy/predict', async (req, res) => {
+  console.log('➡️ Proxy received:', req.body); // Log incoming data
+
+  try {
+    const response = await fetch('http://localhost:8181/predict', {
+      method: 'POST',
+      headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"  // Optional but safe
+  },
+      body: JSON.stringify(req.body),
+    });
+
+    const text = await response.text(); // Read raw response
+    console.log('⬅️ Response from 8181:', text); // Log what came back
+
+    try {
+      const data = JSON.parse(text);
+      res.json(data); // Send response to frontend
+    } catch (parseError) {
+      console.error(' Failed to parse JSON from 8181:', text);
+      res.status(500).json({ error: 'Invalid JSON from prediction server' });
+    }
+  } catch (error) {
+    console.error(' Error forwarding to 8181/predict:', error);
+    res.status(500).json({ error: 'Prediction server error' });
+  }
+});
+
 
 
 // MongoDB connection

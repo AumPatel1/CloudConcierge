@@ -156,36 +156,122 @@
         }
 
         document.getElementById("sales-form").addEventListener("submit", async (e) => {
-            e.preventDefault();
+  e.preventDefault();
 
-            document.getElementById("sales-form").addEventListener("submit", async (e) => {
-                e.preventDefault();
+  const salesData = Object.fromEntries(
+    days.map((day) => [day, Number(document.getElementById(day).value)])
+  );
 
-                const salesData = Object.fromEntries(
-                    days.map((day) => [day, Number(document.getElementById(day).value)])
-                );
+  const [lastTemps, nextTemps] = await Promise.all([
+    fetchForecastWeather(lastWeekDates[0], lastWeekDates[6]),
+    fetchForecastWeather(nextWeekDates[0], nextWeekDates[6]),
+  ]);
 
-                const [lastTemps, nextTemps] = await Promise.all([
-                    fetchForecastWeather(lastWeekDates[0], lastWeekDates[6]),
-                    fetchForecastWeather(nextWeekDates[0], nextWeekDates[6]),
-                ]);
+  if (!lastTemps.length || !nextTemps.length || lastTemps.length !== 7 || nextTemps.length !== 7) {
+    alert("Temperature data not complete.");
+    return;
+  }
 
-                if (!lastTemps.length || !nextTemps.length || lastTemps.length !== 7 || nextTemps.length !== 7) {
-                    alert("Temperature data not complete.");
-                    return;
-                }
+  const predictedSales = {};
 
-                const predictedSales = {};
-                days.forEach((day, index) => {
-                    const ratio = nextTemps[index] / lastTemps[index];
-                    predictedSales[day] = Math.round(salesData[day] * ratio);
-                });
+  try {
+for (let i = 0; i < days.length; i++) {
+  const day = days[i];
+  const lastTemp = lastTemps[i];
+  const nextTemp = nextTemps[i];
 
-                localStorage.setItem("predictedSales", JSON.stringify(predictedSales));
-                window.location.href = "restaurant-dashboard.html";
-            });
+  const lastResponse = await fetch("http://localhost:5000/proxy/predict", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ temperature: lastTemp, day }),
+  });
+  if (!lastResponse.ok) {
+    const errorText = await lastResponse.text();
+    throw new Error(`Error from server on last week ${day}: ${errorText}`);
+  }
+  const lastValObj = await lastResponse.json();
 
-        });
+  const nextResponse = await fetch("http://localhost:5000/proxy/predict", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ temperature: nextTemp, day }),
+  });
+  if (!nextResponse.ok) {
+    const errorText = await nextResponse.text();
+    throw new Error(`Error from server on next week ${day}: ${errorText}`);
+  }
+  const nextValObj = await nextResponse.json();
+
+  const lastVal = lastValObj.prediction; // adjust to your actual key
+  const nextVal = nextValObj.prediction; // adjust to your actual key
+
+  console.log(lastValObj, nextValObj);
+
+  if (typeof lastVal !== "number" || typeof nextVal !== "number") {
+    throw new Error(`Invalid prediction values for ${day}`);
+  }
+
+  const ratio = nextVal / lastVal;
+
+  predictedSales[day] = Math.round(salesData[day] * ratio);
+}for (let i = 0; i < days.length; i++) {
+  const day = days[i];
+  const lastTemp = lastTemps[i];
+  const nextTemp = nextTemps[i];
+
+  const lastResponse = await fetch("http://localhost:5000/proxy/predict", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ temperature: lastTemp, day }),
+  });
+  if (!lastResponse.ok) {
+    const errorText = await lastResponse.text();
+    throw new Error(`Error from server on last week ${day}: ${errorText}`);
+  }
+  const lastValObj = await lastResponse.json();
+  console.log(`Last week response for ${day}:`, lastValObj);
+
+  const nextResponse = await fetch("http://localhost:5000/proxy/predict", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ temperature: nextTemp, day }),
+  });
+  if (!nextResponse.ok) {
+    const errorText = await nextResponse.text();
+    throw new Error(`Error from server on next week ${day}: ${errorText}`);
+  }
+  const nextValObj = await nextResponse.json();
+  console.log(`Next week response for ${day}:`, nextValObj);
+
+  // Now check what keys you have inside the response objects:
+  // For example, if the response looks like { prediction: 123 }
+  // You might try:
+  const lastVal = lastValObj.prediction ?? lastValObj.value ?? null;
+  const nextVal = nextValObj.prediction ?? nextValObj.value ?? null;
+
+  console.log(`Parsed lastVal for ${day}:`, lastVal);
+  console.log(`Parsed nextVal for ${day}:`, nextVal);
+
+  if (typeof lastVal !== "number" || typeof nextVal !== "number") {
+    throw new Error(`Invalid prediction values for ${day}`);
+  }
+
+  const ratio = nextVal / lastVal;
+  predictedSales[day] = Math.round(salesData[day] * ratio);
+}
+
+
+
+    localStorage.setItem("predictedSales", JSON.stringify(predictedSales));
+    window.location.href = "restaurant-dashboard.html";
+
+  } catch (error) {
+    console.error("Error fetching prediction data:", error);
+    alert("Failed to get prediction from server.");
+  }
+});
+
+
     </script>
 </body>
 </html>
