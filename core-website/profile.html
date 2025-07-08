@@ -64,6 +64,11 @@
       color: #222;
       font-size: 1.1rem;
     }
+    .error-message {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: red;
+    }
   </style>
 </head>
 <body>
@@ -88,6 +93,7 @@
     <div class="section-title">Upload Sales CSV</div>
     <form id="csv-upload-form">
       <input type="file" id="csv-file" accept=".csv" required />
+      <div id="csv-error" class="error-message" style="color:red; margin-bottom:10px;"></div>
       <button type="submit">Upload CSV</button>
     </form>
   </div>
@@ -117,11 +123,19 @@
       e.preventDefault();
       const fileInput = document.getElementById('csv-file');
       const file = fileInput.files[0];
-      if (!file) return alert('Please select a CSV file.');
-
+      const errorDiv = document.getElementById('csv-error');
+      errorDiv.textContent = '';
+      const btn = fileInput.nextElementSibling.nextElementSibling;
+      btn.disabled = true;
+      btn.textContent = 'Uploading...';
+      if (!file) {
+        errorDiv.textContent = 'Please select a CSV file.';
+        btn.disabled = false;
+        btn.textContent = 'Upload CSV';
+        return;
+      }
       const formData = new FormData();
       formData.append('file', file);
-
       try {
         const res = await fetch('http://localhost:5000/api/sales/upload-csv', {
           method: 'POST',
@@ -130,13 +144,20 @@
           },
           body: formData
         });
-
         const data = await res.json();
-        alert(data.message || 'Upload complete.');
+        if (res.ok) {
+          errorDiv.style.color = 'green';
+          errorDiv.textContent = data.message || 'Upload complete.';
+        } else {
+          errorDiv.style.color = 'red';
+          errorDiv.textContent = data.message || 'CSV upload failed.';
+        }
       } catch (err) {
-        console.error(err);
-        alert('CSV upload failed.');
+        errorDiv.style.color = 'red';
+        errorDiv.textContent = 'CSV upload failed.';
       }
+      btn.disabled = false;
+      btn.textContent = 'Upload CSV';
     });
 
     document.addEventListener('DOMContentLoaded', fetchUserProfile);
