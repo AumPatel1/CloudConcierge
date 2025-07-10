@@ -78,6 +78,7 @@
 
     <!-- JavaScript -->
     <script>
+		const BASE_URL = "https://cloudconcierge-node.onrender.com";
         const token = localStorage.getItem("token");
         if (!token) window.location.href = "index.html";
 
@@ -180,7 +181,7 @@ for (let i = 0; i < days.length; i++) {
   const lastTemp = lastTemps[i];
   const nextTemp = nextTemps[i];
 
-  const lastResponse = await fetch("http://localhost:5000/proxy/predict", {
+  const lastResponse = await fetch(`${BASE_URL}/proxy/predict`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ temperature: lastTemp, day }),
@@ -191,7 +192,7 @@ for (let i = 0; i < days.length; i++) {
   }
   const lastValObj = await lastResponse.json();
 
-  const nextResponse = await fetch("http://localhost:5000/proxy/predict", {
+  const nextResponse = await fetch(`${BASE_URL}/proxy/predict`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ temperature: nextTemp, day }),
@@ -219,7 +220,7 @@ for (let i = 0; i < days.length; i++) {
   const lastTemp = lastTemps[i];
   const nextTemp = nextTemps[i];
 
-  const lastResponse = await fetch("http://localhost:5000/proxy/predict", {
+  const lastResponse = await fetch(`${BASE_URL}/proxy/predict`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ temperature: lastTemp, day }),
@@ -231,7 +232,7 @@ for (let i = 0; i < days.length; i++) {
   const lastValObj = await lastResponse.json();
   console.log(`Last week response for ${day}:`, lastValObj);
 
-  const nextResponse = await fetch("http://localhost:5000/proxy/predict", {
+  const nextResponse = await fetch(`${BASE_URL}/proxy/predict`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ temperature: nextTemp, day }),

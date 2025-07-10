@@ -30,7 +30,7 @@ app.post('/proxy/predict', async (req, res) => {
   console.log('➡️ Proxy received:', req.body); // Log incoming data
 
   try {
-    const response = await fetch('http://localhost:8181/predict', {
+    const response = await fetch('https://aumpatel-predictingmodel.hf.space/predict', {
       method: 'POST',
       headers: {
       "Content-Type": "application/json",
@@ -40,7 +40,7 @@ app.post('/proxy/predict', async (req, res) => {
     });
 
     const text = await response.text(); // Read raw response
-    console.log('⬅️ Response from 8181:', text); // Log what came back
+    console.log('⬅️ Response from model:', text); // Log what came back
 
     try {
       const data = JSON.parse(text);
@@ -66,6 +66,7 @@ mongoose.connect('mongodb+srv://CloudConcierge:GeekSquad@cloudconcierge.tebviqc.
 .catch((err) => console.log('Failed to connect to MongoDB:', err));
 
 // Start the server
-app.listen(5000, () => {
-  console.log('Server is running on http://localhost:5000');
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
