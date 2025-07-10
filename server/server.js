@@ -58,7 +58,8 @@ app.post('/proxy/predict', async (req, res) => {
 
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://CloudConcierge:GeekSquad@cloudconcierge.tebviqc.mongodb.net/cloudconcierge?retryWrites=true&w=majority', {
+
+mongoose.connect('mongodb+srv://CloudConcierge:GeekSquad@cloudconcierge.ezpvr.mongodb.net/?retryWrites=true&w=majority&appName=CloudConcierge', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
