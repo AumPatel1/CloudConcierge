@@ -316,11 +316,7 @@
       
             <div class="prediction-details">
               <h3>Prediction Details</h3>
-              <p>These predictions are calculated using a combination of:</p>
-              <ul>
-                <li>Historical reservation data</li>
-                <li>Weather forecasts</li>
-              </ul>
+        
             </div>
           </div>
         </div>
@@ -353,6 +349,21 @@ document.addEventListener('DOMContentLoaded', () => {
   if (data.lastUpdated) {
     console.log('Using stored lastUpdated:', data.lastUpdated);
     document.getElementById('lastUpdated').textContent = data.lastUpdated;
+    if (data.avgLast && data.avgNext) {
+  const percentChange = ((data.tempRatio - 1) * 100).toFixed(1);
+  const trend = data.tempRatio > 1 ? "increase" : "decrease";
+  const summaryText = `Based on an average temperature of ${data.avgLast.toFixed(1)}°C last week 
+  and ${data.avgNext.toFixed(1)}°C next week, the model predicts a ${Math.abs(percentChange)}% ${trend} in sales.`;
+
+  const summaryElem = document.createElement("p");
+  summaryElem.style.marginTop = "20px";
+  summaryElem.style.fontStyle = "italic";
+  summaryElem.style.color = "#555";
+  summaryElem.textContent = summaryText;
+
+  document.querySelector(".prediction-card").appendChild(summaryElem);
+}
+
   } else {
     const now = new Date().toLocaleString();
     console.log('No lastUpdated in data, using current date/time:', now);

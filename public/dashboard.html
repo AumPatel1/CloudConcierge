@@ -43,7 +43,7 @@
                 <h1>Welcome to <span id="restaurant-name"></span>'s Dashboard</h1>
             </div>
             <div class="dashboard-content">
-                <h2>Sales Dashboard</h2>
+                <h2>Sales Dashboard</h2> <span>Enter your previous week's sales numbers</span>
                 <form id="sales-form">
                     <div class="days-container" id="days-container"></div>
 
@@ -51,6 +51,9 @@
                 </form>
             </div>
         </div>
+            <div id="loading-indicator" style="display: none; text-align: center; margin-top: 20px;">
+    <i class="fas fa-spinner fa-spin"></i> Calculating predicted sales...
+    </div>
     </section>
 
     <!-- Footer -->
@@ -76,6 +79,8 @@
     <!-- Back to Top -->
     <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
 
+
+
     <!-- JavaScript -->
     <script>
 		const BASE_URL = "https://cloudconcierge-node.onrender.com";
@@ -88,32 +93,7 @@
         const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
         const container = document.getElementById("days-container");
 
-        // Generate inputs dynamically
-        days.forEach((day) => {
-            const capitalized = day.charAt(0).toUpperCase() + day.slice(1);
-            container.innerHTML += `
-            <div class="day">
-              <br />
-              <label for="${day}">${capitalized}</label>
-              <input
-                type="number"
-                id="${day}"
-                name="${day}"
-                placeholder="Enter sales"
-                required
-              />
-            </div>`;
-        });
-
-        // Format date as YYYY-MM-DD
-        function formatDate(date) {
-            const day = String(date.getDate()).padStart(2, "0");
-            const month = String(date.getMonth() + 1).padStart(2, "0");
-            return `${date.getFullYear()}-${month}-${day}`;
-        }
-
-        // Get previous week's Monday–Sunday dates
-        function getPreviousWeekDates() {
+                function getPreviousWeekDates() {
             const current = new Date();
             const dayOfWeek = current.getDay();
             const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
@@ -137,12 +117,44 @@
                 return formatDate(d);
             });
         }
+
+        const lastWeekDates = getPreviousWeekDates();
+        const nextWeekDates = getNextWeekDates();
+
+// Generate inputs dynamically with dates
+days.forEach((day, index) => {
+    const capitalized = day.charAt(0).toUpperCase() + day.slice(1);
+    const date = lastWeekDates[index];
+
+    container.innerHTML += `
+    <div class="day">
+      <br />
+      <strong>${date}</strong><br />
+      <label for="${day}">${capitalized}</label>
+      <input
+        type="number"
+        id="${day}"
+        name="${day}"
+        placeholder="Enter sales"
+        required
+      />
+    </div>`;
+});
+
+        // Format date as YYYY-MM-DD
+        function formatDate(date) {
+            const day = String(date.getDate()).padStart(2, "0");
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            return `${date.getFullYear()}-${month}-${day}`;
+        }
+
+        // Get previous week's Monday–Sunday dates
+
         // Ottawa's coordinates
         const latitude = 45.4215;
         const longitude = -75.6972;
 
-        const lastWeekDates = getPreviousWeekDates();
-        const nextWeekDates = getNextWeekDates();
+
 
         // Fetch forecast weather (works for past and future dates)
         async function fetchForecastWeather(startDate, endDate) {
@@ -159,9 +171,14 @@
         document.getElementById("sales-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
+    const loading = document.getElementById("loading-indicator");
+    loading.style.display = "block"; // 🔵 Show loading
+
   const salesData = Object.fromEntries(
     days.map((day) => [day, Number(document.getElementById(day).value)])
   );
+
+
 
   const [lastTemps, nextTemps] = await Promise.all([
     fetchForecastWeather(lastWeekDates[0], lastWeekDates[6]),
@@ -176,46 +193,7 @@
   const predictedSales = {};
 
   try {
-for (let i = 0; i < days.length; i++) {
-  const day = days[i];
-  const lastTemp = lastTemps[i];
-  const nextTemp = nextTemps[i];
-
-  const lastResponse = await fetch(`${BASE_URL}/proxy/predict`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ temperature: lastTemp, day }),
-  });
-  if (!lastResponse.ok) {
-    const errorText = await lastResponse.text();
-    throw new Error(`Error from server on last week ${day}: ${errorText}`);
-  }
-  const lastValObj = await lastResponse.json();
-
-  const nextResponse = await fetch(`${BASE_URL}/proxy/predict`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ temperature: nextTemp, day }),
-  });
-  if (!nextResponse.ok) {
-    const errorText = await nextResponse.text();
-    throw new Error(`Error from server on next week ${day}: ${errorText}`);
-  }
-  const nextValObj = await nextResponse.json();
-
-  const lastVal = lastValObj.prediction; // adjust to your actual key
-  const nextVal = nextValObj.prediction; // adjust to your actual key
-
-  console.log(lastValObj, nextValObj);
-
-  if (typeof lastVal !== "number" || typeof nextVal !== "number") {
-    throw new Error(`Invalid prediction values for ${day}`);
-  }
-
-  const ratio = nextVal / lastVal;
-
-  predictedSales[day] = Math.round(salesData[day] * ratio);
-}for (let i = 0; i < days.length; i++) {
+    for (let i = 0; i < days.length; i++) {
   const day = days[i];
   const lastTemp = lastTemps[i];
   const nextTemp = nextTemps[i];
@@ -263,13 +241,25 @@ for (let i = 0; i < days.length; i++) {
 
 
 
-    localStorage.setItem("predictedSales", JSON.stringify(predictedSales));
+    const avgLast = lastTemps.reduce((a, b) => a + b, 0) / lastTemps.length;
+const avgNext = nextTemps.reduce((a, b) => a + b, 0) / nextTemps.length;
+const tempRatio = avgNext / avgLast;
+
+localStorage.setItem("predictedSales", JSON.stringify({
+  ...predictedSales,
+  lastUpdated: new Date().toLocaleString(),
+  avgLast,
+  avgNext,
+  tempRatio
+}));
     window.location.href = "restaurant-dashboard.html";
 
   } catch (error) {
     console.error("Error fetching prediction data:", error);
     alert("Failed to get prediction from server.");
-  }
+  } finally {
+        loading.style.display = "none"; // 🔴 Hide in all cases
+    }
 });
 
 
