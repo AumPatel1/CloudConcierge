@@ -18,23 +18,24 @@
                 <div class="logo"></div>
             </div>
         </div>
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-content">
+                    <div class="logo">
+                        <h2>Cloud Concierge</h2>
+                    </div>
+                    <ul class="nav-links">
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="index.html">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-content">
-                <div class="logo">
-                    <h2>Cloud Concierge</h2>
-                </div>
-                <ul class="nav-links">
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="profile.html">Profile</a></li>
-                    <li><a href="index.html">Logout</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+
 
     <!-- Dashboard -->
     <section class="dashboard">
@@ -49,11 +50,13 @@
 
                     <button type="submit" class="btn btn-primary">Submit Sales</button>
                 </form>
+                <a class="csv" href="csv.html">Upload CSV file</a>
             </div>
         </div>
-            <div id="loading-indicator" style="display: none; text-align: center; margin-top: 20px;">
-    <i class="fas fa-spinner fa-spin"></i> Calculating predicted sales...
-    </div>
+        <div id="loading-indicator" style="display: none; text-align: center; margin-top: 20px;">
+            <i class="fas fa-spinner fa-spin"></i> Calculating predicted sales...
+        </div>
+        
     </section>
 
     <!-- Footer -->

@@ -15,7 +15,7 @@ body {
 }
 
 .header {
-    background-color: darkorange;
+    background-color: #ff7800;
     padding: 10px 20px;
 }
 
@@ -132,7 +132,7 @@ body {
 }
 
 .day {
-    background-color: #ffe5b4; /* light orange */
+    background-color: #ff7800;
     padding: 10px;
     border-radius: 8px;
     text-align: center;
@@ -153,13 +153,20 @@ body {
         border-radius: 5px;
     }
 
+.csv {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
 /* Submit Button */
 .btn-primary {
-    background-color: orange;
+    background-color: #ff7800;
     color: white;
     padding: 10px 25px;
     border: none;
     border-radius: 8px;
+    margin: 5px;
     font-size: 16px;
     cursor: pointer;
 }
@@ -317,6 +324,40 @@ body {
     font-size: 1rem;
     color: green;
 }
+
+/* Upload Csv */
+
+.outer-container {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.upload-container {
+    background-color: #fff;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
 
 /* Responsive fallback for smaller screens */
 @media (max-width: 900px) {
