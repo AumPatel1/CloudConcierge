@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cloud Concierge - Dashboard</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet" />
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <body>
     <!-- Header -->
@@ -35,8 +33,6 @@
         </nav>
     </header>
 
-
-
     <!-- Dashboard -->
     <section class="dashboard">
         <div class="container">
@@ -44,10 +40,10 @@
                 <h1>Welcome to <span id="restaurant-name"></span>'s Dashboard</h1>
             </div>
             <div class="dashboard-content">
-                <h2>Sales Dashboard</h2> <span>Enter your previous week's sales numbers</span>
+                <h2>Sales Dashboard</h2>
+                <span>Enter your previous week's sales numbers</span>
                 <form id="sales-form">
                     <div class="days-container" id="days-container"></div>
-
                     <button type="submit" class="btn btn-primary">Submit Sales</button>
                 </form>
                 <a class="csv" href="csv.html">Upload CSV file</a>
@@ -56,7 +52,6 @@
         <div id="loading-indicator" style="display: none; text-align: center; margin-top: 20px;">
             <i class="fas fa-spinner fa-spin"></i> Calculating predicted sales...
         </div>
-
     </section>
 
     <!-- Footer -->
@@ -79,10 +74,7 @@
         </div>
     </footer>
 
-    <!-- Back to Top -->
     <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
-
-
 
     <!-- JavaScript -->
     <script>
@@ -90,37 +82,14 @@
         const token = localStorage.getItem("token");
         if (!token) window.location.href = "index.html";
 
-        async function loadLatestSales() {
-            try {
-                const res = await fetch(`${BASE_URL}/api/sales/latest`, {
-                    headers: { Authorization: 'Bearer ' + token }
-                });
-                if (!res.ok) {
-                    console.warn('No latest sales found or error fetching');
-                    return;
-                }
-                const data = await res.json();
-
-                // Fill input fields if data is present
-                days.forEach(day => {
-                    if (data[day] !== undefined && data[day] !== null) {
-                        const input = document.getElementById(day);
-                        if (input) input.value = data[day];
-                    }
-                });
-            } catch (err) {
-                console.error('Failed to load latest sales:', err);
-            }
-        }
-
-        // Call on page load
-        loadLatestSales();
-
-        document.getElementById("restaurant-name").textContent = "Your Restaurant Name";
-
-        // Days array
         const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
         const container = document.getElementById("days-container");
+
+        function formatDate(date) {
+            const day = String(date.getDate()).padStart(2, "0");
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            return `${date.getFullYear()}-${month}-${day}`;
+        }
 
         function getPreviousWeekDates() {
             const current = new Date();
@@ -134,7 +103,6 @@
             });
         }
 
-        // Get next week's Monday–Sunday dates
         function getNextWeekDates() {
             const current = new Date();
             const dayOfWeek = current.getDay();
@@ -150,71 +118,66 @@
         const lastWeekDates = getPreviousWeekDates();
         const nextWeekDates = getNextWeekDates();
 
-        // Generate inputs dynamically with dates
         days.forEach((day, index) => {
             const capitalized = day.charAt(0).toUpperCase() + day.slice(1);
             const date = lastWeekDates[index];
-
             container.innerHTML += `
-        <div class="day">
-          <br />
-          <strong>${date}</strong><br />
-          <label for="${day}">${capitalized}</label>
-          <input
-            type="number"
-            id="${day}"
-            name="${day}"
-            placeholder="Enter sales"
-            required
-          />
-        </div>`;
+                    <div class="day">
+                        <br />
+                        <strong>${date}</strong><br />
+                        <label for="${day}">${capitalized}</label>
+                        <input type="number" id="${day}" name="${day}" placeholder="Enter sales" required />
+                    </div>`;
         });
 
-        // Format date as YYYY-MM-DD
-        function formatDate(date) {
-            const day = String(date.getDate()).padStart(2, "0");
-            const month = String(date.getMonth() + 1).padStart(2, "0");
-            return `${date.getFullYear()}-${month}-${day}`;
+        async function loadLatestSales() {
+            try {
+                const res = await fetch(`${BASE_URL}/api/sales/latest`, {
+                    headers: { Authorization: 'Bearer ' + token }
+                });
+                if (!res.ok) return;
+
+                const data = await res.json();
+                days.forEach(day => {
+                    if (data[day] !== undefined && data[day] !== null) {
+                        const input = document.getElementById(day);
+                        if (input) input.value = data[day];
+                    }
+                });
+            } catch (err) {
+                console.error('Failed to load latest sales:', err);
+            }
         }
 
-        // Get previous week's Monday–Sunday dates
+        document.getElementById("restaurant-name").textContent = "Your Restaurant Name";
+        loadLatestSales();
 
-        // Ottawa's coordinates
         const latitude = 45.4215;
         const longitude = -75.6972;
 
-
-
-        // Fetch forecast weather (works for past and future dates)
         async function fetchForecastWeather(startDate, endDate) {
             const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&start_date=${startDate}&end_date=${endDate}&daily=temperature_2m_max&timezone=America/New_York`;
             const response = await fetch(url);
             const data = await response.json();
-            if (!data.daily || !data.daily.temperature_2m_max) {
-                console.error("Forecast weather API failed or no data", data);
-                return [];
-            }
-            return data.daily.temperature_2m_max;
+            return data.daily?.temperature_2m_max || [];
         }
 
-        document.getElementById("sales-form").addEventListener("submit", async (e) => {
-            e.preventDefault();
+        async function handleSalesFormSubmit(e) {
+            if (e) e.preventDefault();
 
             const loading = document.getElementById("loading-indicator");
-            loading.style.display = "block"; // 🔵 Show loading
+            loading.style.display = "block";
 
             const salesData = Object.fromEntries(
                 days.map((day) => [day, Number(document.getElementById(day).value)])
             );
-
-
 
             const [lastTemps, nextTemps] = await Promise.all([
                 fetchForecastWeather(lastWeekDates[0], lastWeekDates[6]),
                 fetchForecastWeather(nextWeekDates[0], nextWeekDates[6]),
             ]);
 
-            if (!lastTemps.length || !nextTemps.length || lastTemps.length !== 7 || nextTemps.length !== 7) {
+            if (lastTemps.length !== 7 || nextTemps.length !== 7) {
                 alert("Temperature data not complete.");
                 return;
             }
@@ -224,54 +187,35 @@
             try {
                 for (let i = 0; i < days.length; i++) {
                     const day = days[i];
-                    const lastTemp = lastTemps[i];
-                    const nextTemp = nextTemps[i];
+                    const [lastTemp, nextTemp] = [lastTemps[i], nextTemps[i]];
 
                     const lastResponse = await fetch(`${BASE_URL}/proxy/predict`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ temperature: lastTemp, day }),
                     });
-                    if (!lastResponse.ok) {
-                        const errorText = await lastResponse.text();
-                        throw new Error(`Error from server on last week ${day}: ${errorText}`);
-                    }
                     const lastValObj = await lastResponse.json();
-                    console.log(`Last week response for ${day}:`, lastValObj);
 
                     const nextResponse = await fetch(`${BASE_URL}/proxy/predict`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ temperature: nextTemp, day }),
                     });
-                    if (!nextResponse.ok) {
-                        const errorText = await nextResponse.text();
-                        throw new Error(`Error from server on next week ${day}: ${errorText}`);
-                    }
                     const nextValObj = await nextResponse.json();
-                    console.log(`Next week response for ${day}:`, nextValObj);
 
-                    // Now check what keys you have inside the response objects:
-                    // For example, if the response looks like { prediction: 123 }
-                    // You might try:
-                    const lastVal = lastValObj.prediction ?? lastValObj.value ?? null;
-                    const nextVal = nextValObj.prediction ?? nextValObj.value ?? null;
-
-                    console.log(`Parsed lastVal for ${day}:`, lastVal);
-                    console.log(`Parsed nextVal for ${day}:`, nextVal);
+                    const lastVal = lastValObj.prediction ?? lastValObj.value;
+                    const nextVal = nextValObj.prediction ?? nextValObj.value;
 
                     if (typeof lastVal !== "number" || typeof nextVal !== "number") {
-                        throw new Error(`Invalid prediction values for ${day}`);
+                        throw new Error(`Invalid prediction for ${day}`);
                     }
 
                     const ratio = nextVal / lastVal;
                     predictedSales[day] = Math.round(salesData[day] * ratio);
                 }
 
-
-
-                const avgLast = lastTemps.reduce((a, b) => a + b, 0) / lastTemps.length;
-                const avgNext = nextTemps.reduce((a, b) => a + b, 0) / nextTemps.length;
+                const avgLast = lastTemps.reduce((a, b) => a + b, 0) / 7;
+                const avgNext = nextTemps.reduce((a, b) => a + b, 0) / 7;
                 const tempRatio = avgNext / avgLast;
 
                 localStorage.setItem("predictedSales", JSON.stringify({
@@ -281,28 +225,23 @@
                     avgNext,
                     tempRatio
                 }));
-                window.location.href = "restaurant-dashboard.html";
 
+                window.location.href = "restaurant-dashboard.html";
             } catch (error) {
                 console.error("Error fetching prediction data:", error);
                 alert("Failed to get prediction from server.");
             } finally {
-                loading.style.display = "none"; // 🔴 Hide in all cases
+                loading.style.display = "none";
             }
-        });
+        }
 
+        document.getElementById("sales-form").addEventListener("submit", handleSalesFormSubmit);
 
-    </script>
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const shouldAutoSubmit = localStorage.getItem('autoSubmit');
-            if (shouldAutoSubmit === 'true') {
-                localStorage.removeItem('autoSubmit'); // Clear flag
-
-                const form = document.getElementById('sales-form'); 
-                if (form) {
-                    form.dispatchEvent(new Event('submit'));
-                }
+        window.addEventListener('DOMContentLoaded', async () => {
+            await loadLatestSales(); // Wait until latest sales are loaded
+            if (localStorage.getItem('autoSubmit') === 'true') {
+                localStorage.removeItem('autoSubmit');
+                handleSalesFormSubmit();
             }
         });
     </script>
