@@ -8,6 +8,29 @@
     <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"></div>
+            </div>
+        </div>
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-content">
+                    <div class="logo">
+                        <h2>Cloud Concierge</h2>
+                    </div>
+                    <ul class="nav-links">
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="index.html">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
     <div class="outer-container">
         <div class="upload-container">
             <h2>Upload Sales Data</h2>
@@ -18,47 +41,47 @@
         </div>
     </div>
 
-  <script>
-    document.getElementById('upload-btn').addEventListener('click', async () => {
-      const file = document.getElementById('csv-file').files[0];
-      const errorDiv = document.getElementById('csv-error');
-      errorDiv.textContent = '';
-      const btn = document.getElementById('upload-btn');
-      btn.disabled = true;
-      btn.textContent = 'Uploading...';
-      if (!file) {
-        errorDiv.textContent = 'Please select a CSV file.';
-        btn.disabled = false;
-        btn.textContent = 'Upload CSV';
-        return;
-      }
+    <script>
+        document.getElementById('upload-btn').addEventListener('click', async () => {
+            const file = document.getElementById('csv-file').files[0];
+            const errorDiv = document.getElementById('csv-error');
+            errorDiv.textContent = '';
+            const btn = document.getElementById('upload-btn');
+            btn.disabled = true;
+            btn.textContent = 'Uploading...';
+            if (!file) {
+                errorDiv.textContent = 'Please select a CSV file.';
+                btn.disabled = false;
+                btn.textContent = 'Upload CSV';
+                return;
+            }
 
-      const formData = new FormData();
-      formData.append('file', file);
+            const formData = new FormData();
+            formData.append('file', file);
 
-      const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
 
-      try {
-          const res = await fetch('https://cloudconcierge-node.onrender.com/api/sales/upload-csv', {
-          method: 'POST',
-          headers: {
-            Authorization: 'Bearer ' + token
-          },
-          body: formData
+            try {
+                const res = await fetch('https://cloudconcierge-node.onrender.com/api/sales/upload-csv', {
+                    method: 'POST',
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    },
+                    body: formData
+                });
+
+                const result = await res.json();
+                if (res.ok) {
+                    window.location.href = './restaurant-dashboard.html';
+                } else {
+                    errorDiv.textContent = result.message || 'Upload failed.';
+                }
+            } catch (err) {
+                errorDiv.textContent = 'Upload failed. Please try again.';
+            }
+            btn.disabled = false;
+            btn.textContent = 'Upload CSV';
         });
-
-        const result = await res.json();
-        if (res.ok) {
-          window.location.href = './restaurant-dashboard.html';
-        } else {
-          errorDiv.textContent = result.message || 'Upload failed.';
-        }
-      } catch (err) {
-        errorDiv.textContent = 'Upload failed. Please try again.';
-      }
-      btn.disabled = false;
-      btn.textContent = 'Upload CSV';
-    });
-  </script>
+    </script>
 </body>
 </html>
