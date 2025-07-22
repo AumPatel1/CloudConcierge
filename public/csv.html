@@ -72,7 +72,9 @@
 
                 const result = await res.json();
                 if (res.ok) {
-                    window.location.href = './restaurant-dashboard.html';
+                    localStorage.setItem('autoSubmit', 'true'); // Set flag
+                    window.location.href = './dashboard.html';
+                
                 } else {
                     errorDiv.textContent = result.message || 'Upload failed.';
                 }
