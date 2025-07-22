@@ -301,7 +301,7 @@
 
                 const form = document.getElementById('sales-form'); 
                 if (form) {
-                    form.submit();
+                    form.dispatchEvent(new Event('submit'));
                 }
             }
         });
