@@ -9,10 +9,16 @@ const fetch = require('node-fetch'); // npm install node-fetch if not already
 
 // CORS configuration
 const corsOptions = {
-  origin: '*', // Allow all origins or specify frontend URL here for more security
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Include OPTIONS for preflight
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  optionsSuccessStatus: 200, // For legacy browsers
+    origin: (origin, callback) => {
+        if (!origin || origin === 'null' || origin.includes('https://cloudconcierge.onrender.com')) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200,
 };
 
 // Use CORS middleware
