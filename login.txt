@@ -2,3 +2,7 @@ Mongo DB
 
 username = CloudConcierge
 passsword = GeekSquad
+
+MongoDB connection string
+
+mongodb+srv://CloudConcierge:GeekSquad@cloudconcierge.tebviqc.mongodb.net/

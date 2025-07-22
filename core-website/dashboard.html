@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cloud Concierge - Dashboard</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <body>
-    <!-- Header Section -->
+    <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <!-- Add logo here -->
-                </div>
+                <div class="logo"></div>
             </div>
         </div>
     </header>
 
-    <!-- Navigation Bar -->
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="container">
             <div class="navbar-content">
@@ -30,66 +30,28 @@
                 <ul class="nav-links">
                     <li><a href="dashboard.html">Dashboard</a></li>
                     <li><a href="profile.html">Profile</a></li>
+                    <li><span id="company-display" style="color: #4a90e2; font-weight: 600;"></span></li>
                     <li><a href="index.html">Logout</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Dashboard Section -->
+    <!-- Dashboard -->
     <section class="dashboard">
         <div class="container">
             <div class="dashboard-header">
                 <h1>Welcome to <span id="restaurant-name"></span>'s Dashboard</h1>
             </div>
-
             <div class="dashboard-content">
                 <h2>Sales Dashboard</h2>
+                <div class="data-note">
+                    <i class="fas fa-info-circle"></i>
+                    <p><strong>Important:</strong> Please enter the number of sales for each day of the week. This data will be used to generate accurate predictions for your business.</p>
+                </div>
                 <form id="sales-form">
-                    <div class="days-container">
-                        <div class="day">
-                            <br>
-                            <label for="monday">Monday</label>
-                            <span id="monday-date" class="date"></span>
-                            <input type="number" id="monday" name="monday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <br>
-                            <label for="tuesday">Tuesday</label>
-                            <span id="tuesday-date" class="date"></span>
-                            <input type="number" id="tuesday" name="tuesday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <br>
-                            <label for="wednesday">Wednesday</label>
-                            <span id="wednesday-date" class="date"></span>
-                            <input type="number" id="wednesday" name="wednesday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <br>
-                            <label for="thursday">Thursday</label>
-                            <span id="thursday-date" class="date"></span>
-                            <input type="number" id="thursday" name="thursday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <br>
-                            <label for="friday">Friday</label>
-                            <span id="friday-date" class="date"></span>
-                            <input type="number" id="friday" name="friday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <br>
-                            <label for="saturday">Saturday</label>
-                            <span id="saturday-date" class="date"></span>
-                            <input type="number" id="saturday" name="saturday" placeholder="Enter sales" required>
-                        </div>
-                        <div class="day">
-                            <br>
-                            <label for="sunday">Sunday</label>
-                            <span id="sunday-date" class="date"></span>
-                            <input type="number" id="sunday" name="sunday" placeholder="Enter sales" required>
-                        </div>
-                    </div>
+                    <div class="days-container" id="days-container"></div>
+
                     <button type="submit" class="btn btn-primary">Submit Sales</button>
                 </form>
             </div>
@@ -116,101 +78,155 @@
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
+    <!-- Back to Top -->
     <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  function formatDate(date) {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${year}-${month}-${day}`;
-  }
 
-  function getPreviousWeekDates() {
-    const currentDate = new Date();
-    const dayOfWeek = currentDate.getDay();
-    const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-    currentDate.setDate(currentDate.getDate() - diffToMonday - 7);
-    const previousWeekDates = [];
-    for (let i = 0; i < 7; i++) {
-      previousWeekDates.push(formatDate(new Date(currentDate)));
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    return previousWeekDates;
-  }
+    <!-- JavaScript -->
+    <script>
+        const token = localStorage.getItem("token");
+        if (!token) window.location.href = "index.html";
 
-  const previousWeekDates = getPreviousWeekDates();
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        // Load company name from localStorage or fetch from server
+        const companyName = localStorage.getItem('companyName');
+        const userData = localStorage.getItem('userData');
+        
+        if (companyName) {
+            document.getElementById("restaurant-name").textContent = companyName;
+            document.getElementById("company-display").textContent = companyName;
+        } else if (userData) {
+            const user = JSON.parse(userData);
+            document.getElementById("restaurant-name").textContent = user.restaurantName || "Your Restaurant Name";
+            document.getElementById("company-display").textContent = user.restaurantName || "";
+        } else {
+            // Fallback: try to fetch user data from server
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    const response = await fetch('http://localhost:5000/api/auth/profile', {
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    });
+                    if (response.ok) {
+                        const user = await response.json();
+                        document.getElementById("restaurant-name").textContent = user.restaurantName || "Your Restaurant Name";
+                        document.getElementById("company-display").textContent = user.restaurantName || "";
+                        localStorage.setItem('companyName', user.restaurantName);
+                        localStorage.setItem('userData', JSON.stringify(user));
+                    }
+                } catch (err) {
+                    console.error('Error fetching user data:', err);
+                    document.getElementById("restaurant-name").textContent = "Your Restaurant Name";
+                }
+            } else {
+                document.getElementById("restaurant-name").textContent = "Your Restaurant Name";
+            }
+        }
 
-  // Populate dates in the form
-  days.forEach((day, index) => {
-    const id = `${day.toLowerCase()}-date`;
-    const el = document.getElementById(id);
-    if (el) el.textContent = previousWeekDates[index];
-  });
+        // Days array
+        const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+        const container = document.getElementById("days-container");
 
-  document.getElementById('restaurant-name').textContent = "Your Restaurant Name";
+        // Generate inputs dynamically
+        days.forEach((day) => {
+            const capitalized = day.charAt(0).toUpperCase() + day.slice(1);
+            container.innerHTML += `
+            <div class="day">
+              <br />
+              <label for="${day}">${capitalized}</label>
+              <input
+                type="number"
+                id="${day}"
+                name="${day}"
+                placeholder="Enter sales"
+                required
+              />
+            </div>`;
+        });
 
-  async function fetchWeatherForPreviousWeek(lat, lon, dates) {
-    const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dates[0]}&end_date=${dates[6]}&daily=temperature_2m_mean&timezone=auto`;
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.daily ? data.daily.temperature_2m_mean : [];
-  }
+        // Format date as YYYY-MM-DD
+        function formatDate(date) {
+            const day = String(date.getDate()).padStart(2, "0");
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            return `${date.getFullYear()}-${month}-${day}`;
+        }
 
-  const latitude = 45.4215;
-  const longitude = -75.6972;
+        // Get previous week's Monday–Sunday dates
+        function getPreviousWeekDates() {
+            const current = new Date();
+            const dayOfWeek = current.getDay();
+            const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+            current.setDate(current.getDate() - diffToMonday - 7);
+            return Array.from({ length: 7 }, () => {
+                const d = new Date(current);
+                current.setDate(current.getDate() + 1);
+                return formatDate(d);
+            });
+        }
 
-  document.getElementById('sales-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
+        // Get next week's Monday–Sunday dates
+        function getNextWeekDates() {
+            const current = new Date();
+            const dayOfWeek = current.getDay();
+            const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+            current.setDate(current.getDate() - diffToMonday + 7);
+            return Array.from({ length: 7 }, () => {
+                const d = new Date(current);
+                current.setDate(current.getDate() + 1);
+                return formatDate(d);
+            });
+        }
+        // Ottawa's coordinates
+        const latitude = 45.4215;
+        const longitude = -75.6972;
 
-    const token = localStorage.getItem('token');
+        const lastWeekDates = getPreviousWeekDates();
+        const nextWeekDates = getNextWeekDates();
 
-    const salesData = {
-      monday: document.getElementById('monday').value,
-      tuesday: document.getElementById('tuesday').value,
-      wednesday: document.getElementById('wednesday').value,
-      thursday: document.getElementById('thursday').value,
-      friday: document.getElementById('friday').value,
-      saturday: document.getElementById('saturday').value,
-      sunday: document.getElementById('sunday').value,
-    };
+        // Fetch forecast weather (works for past and future dates)
+        async function fetchForecastWeather(startDate, endDate) {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&start_date=${startDate}&end_date=${endDate}&daily=temperature_2m_max&timezone=America/New_York`;
+            const response = await fetch(url);
+            const data = await response.json();
+            if (!data.daily || !data.daily.temperature_2m_max) {
+                console.error("Forecast weather API failed or no data", data);
+                return [];
+            }
+            return data.daily.temperature_2m_max;
+        }
 
-    // Save sales to DB
-    await fetch('http://localhost:5000/api/sales', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token,
-      },
-      body: JSON.stringify(salesData),
-    });
+        document.getElementById("sales-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-    // Fetch weather
-    const temps = await fetchWeatherForPreviousWeek(latitude, longitude, previousWeekDates);
+            document.getElementById("sales-form").addEventListener("submit", async (e) => {
+                e.preventDefault();
 
-    // Get predictions
-    const predictions = [];
-    for (let i = 0; i < days.length; i++) {
-      const res = await fetch('https://aumpatel-predictingmodel.hf.space/predict', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ day: days[i], temperature: temps[i] })
-      });
-      const data = await res.json();
-      predictions.push({
-        day: days[i],
-        guests: Math.round(data.prediction),
-        peakTime: "6:30 PM - 8:00 PM" // Default or you can modify dynamically
-      });
-    }
+                const salesData = Object.fromEntries(
+                    days.map((day) => [day, Number(document.getElementById(day).value)])
+                );
 
-    // Save in local storage
-    localStorage.setItem('predictions', JSON.stringify(predictions));
+                const [lastTemps, nextTemps] = await Promise.all([
+                    fetchForecastWeather(lastWeekDates[0], lastWeekDates[6]),
+                    fetchForecastWeather(nextWeekDates[0], nextWeekDates[6]),
+                ]);
 
-    // Redirect
-    window.location.href = "restaurant-dashboard.html";
-  });
-});
-</script>
+                if (!lastTemps.length || !nextTemps.length || lastTemps.length !== 7 || nextTemps.length !== 7) {
+                    alert("Temperature data not complete.");
+                    return;
+                }
+
+                const predictedSales = {};
+                days.forEach((day, index) => {
+                    const ratio = nextTemps[index] / lastTemps[index];
+                    predictedSales[day] = Math.round(salesData[day] * ratio);
+                });
+
+                localStorage.setItem("predictedSales", JSON.stringify(predictedSales));
+                window.location.href = "restaurant-dashboard.html";
+            });
+
+        });
+    </script>
+</body>
+</html>
+

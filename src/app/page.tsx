@@ -21,7 +21,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mt-8">
           <a
-            href="https://nextjs.org/docs"
+            href="/index.html"
             className="p-6 border border-gray-300 rounded-lg hover:text-primary hover:border-primary transition-colors"
           >
             <h2 className="text-2xl font-bold mb-2">Documentation &rarr;</h2>

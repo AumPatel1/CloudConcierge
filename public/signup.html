@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - Cloud Concierge</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <!-- Logo here -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sign Up Section -->
+    <section class="signup">
+        <div class="signup-container">
+            <div class="signup-content">
+                <h2>Create an Account</h2>
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" placeholder="Enter your email" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Create a password" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="restaurant-name">Restaurant Name</label>
+                        <input type="text" id="restaurant-name" placeholder="e.g., John's Diner" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="postal-code">Postal Code</label>
+                        <input type="text" id="postal-code" placeholder="e.g., K1A 0B1" required />
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label><input type="checkbox" name="restaurant-type" value="Dine-in" /> Dine-in</label>
+                        <label><input type="checkbox" name="restaurant-type" value="Take-out" /> Take-out</label>
+                        <label><input type="checkbox" name="restaurant-type" value="Delivery" /> Delivery</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+
+                <div class="signup-footer">
+                    <p>Already have an account? <a href="index.html">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>About Cloud Concierge</h3>
+                    <p>Your AI sales prediction software</p>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 1395 Woodroffe Ave, Ottawa ON</p>
+                    <p><i class="fas fa-envelope"></i> support@cloudconcierge.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cloud Concierge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- Script -->
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const restaurantName = document.getElementById('restaurant-name').value;
+            const postalCode = document.getElementById('postal-code').value;
+
+            const typeCheckboxes = document.querySelectorAll('input[name="restaurant-type"]:checked');
+            const restaurantTypes = Array.from(typeCheckboxes).map(cb => cb.value);
+
+            try {
+                const res = await fetch('https://cloudconcierge-node.onrender.com/api/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, restaurantName, restaurantTypes, postalCode }),
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    localStorage.setItem('restaurantName', data.user.restaurantName);
+                    localStorage.setItem('restaurantId', data.user._id);
+                    localStorage.setItem('email', data.user.email);
+                    localStorage.setItem('restaurantTypes', JSON.stringify(data.user.restaurantTypes));
+                    localStorage.setItem('postalCode', data.user.postalCode);
+
+                    alert(data.message);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert(data.message || 'Signup failed.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error signing up.');
+            }
+        });
+    </script>
+</body>
+</html>

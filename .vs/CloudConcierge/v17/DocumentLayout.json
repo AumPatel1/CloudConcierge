@@ -3,12 +3,28 @@
   "WorkspaceRootPath": "C:\\CloudConcierge\\CloudConcierge\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CloudConcierge\\CloudConcierge\\core-website\\restaurant-dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:core-website\\restaurant-dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CloudConcierge\\CloudConcierge\\core-website\\dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:core-website\\dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CloudConcierge\\CloudConcierge\\server\\server.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\server.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CloudConcierge\\CloudConcierge\\core-website\\signup.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:core-website\\signup.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CloudConcierge\\CloudConcierge\\core-website\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:core-website\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CloudConcierge\\CloudConcierge\\core-website\\js\\main.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:core-website\\js\\main.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CloudConcierge\\CloudConcierge\\core-website\\restaurant-dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:core-website\\restaurant-dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -47,28 +63,75 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "server.js",
+              "DocumentMoniker": "C:\\CloudConcierge\\CloudConcierge\\server\\server.js",
+              "RelativeDocumentMoniker": "server\\server.js",
+              "ToolTip": "C:\\CloudConcierge\\CloudConcierge\\server\\server.js",
+              "RelativeToolTip": "server\\server.js",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-06-05T22:13:01.852Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "signup.html",
+              "DocumentMoniker": "C:\\CloudConcierge\\CloudConcierge\\core-website\\signup.html",
+              "RelativeDocumentMoniker": "core-website\\signup.html",
+              "ToolTip": "C:\\CloudConcierge\\CloudConcierge\\core-website\\signup.html",
+              "RelativeToolTip": "core-website\\signup.html",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAAAHYAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-06-05T22:09:26.926Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "main.js",
+              "DocumentMoniker": "C:\\CloudConcierge\\CloudConcierge\\core-website\\js\\main.js",
+              "RelativeDocumentMoniker": "core-website\\js\\main.js",
+              "ToolTip": "C:\\CloudConcierge\\CloudConcierge\\core-website\\js\\main.js",
+              "RelativeToolTip": "core-website\\js\\main.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-06-05T21:56:55.104Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "dashboard.html",
+              "DocumentMoniker": "C:\\CloudConcierge\\CloudConcierge\\core-website\\dashboard.html",
+              "RelativeDocumentMoniker": "core-website\\dashboard.html",
+              "ToolTip": "C:\\CloudConcierge\\CloudConcierge\\core-website\\dashboard.html",
+              "RelativeToolTip": "core-website\\dashboard.html",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAAAKwAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-06-05T15:08:38.45Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "index.html",
               "DocumentMoniker": "C:\\CloudConcierge\\CloudConcierge\\core-website\\index.html",
               "RelativeDocumentMoniker": "core-website\\index.html",
               "ToolTip": "C:\\CloudConcierge\\CloudConcierge\\core-website\\index.html",
               "RelativeToolTip": "core-website\\index.html",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAADQBAAAAAAAA",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAAF4AAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2025-03-18T21:12:18.312Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-18T21:12:18.312Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "restaurant-dashboard.html",
               "DocumentMoniker": "C:\\CloudConcierge\\CloudConcierge\\core-website\\restaurant-dashboard.html",
               "RelativeDocumentMoniker": "core-website\\restaurant-dashboard.html",
               "ToolTip": "C:\\CloudConcierge\\CloudConcierge\\core-website\\restaurant-dashboard.html",
               "RelativeToolTip": "core-website\\restaurant-dashboard.html",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAABAAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2025-03-18T21:12:08.277Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-18T21:12:08.277Z"
             }
           ]
         }

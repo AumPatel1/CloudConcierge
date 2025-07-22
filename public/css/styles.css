@@ -1,0 +1,436 @@
+/* General Reset & Font */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background-color: #ff7800;
+    padding: 10px 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between; /* title left, links right */
+    align-items: center;
+}
+
+.logo h1 {
+    color: black;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+    .nav-links li a {
+        color: black;
+        text-decoration: none;
+        font-weight: 500;
+        font-family: 'Poppins', sans-serif;
+        transition: color 0.3s ease;
+    }
+
+        .nav-links li a:hover {
+            color: #333;
+        }
+
+        /* Sign up */
+
+.signup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.signup-container {
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+    .signup-container h2 {
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .signup-container input[type="email"],
+    .signup-container input[type="password"],
+    .signup-container input[type="text"] {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 0.25rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+
+.checkbox-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+    .checkbox-group label {
+        font-size: 0.9rem;
+        margin-right: 1rem;
+    }
+/* Login */
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.login-content {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+    .login-content h2 {
+        margin-bottom: 25px;
+        font-weight: 600;
+        color: #222;
+    }
+
+.form-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+    }
+
+/* Dashboard Section */
+.dashboard {
+    flex: 1;
+    padding: 30px 0;
+}
+
+.dashboard-header h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.dashboard-content {
+    text-align: center;
+    padding: 20px;
+}
+
+#sales-form {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Days Grid */
+.days-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 equal columns */
+    gap: 10px; /* space between day boxes */
+    margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.day {
+    background-color: #ff7800;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+    .day label {
+        font-weight: 500;
+        display: block;
+        margin: 5px 0;
+    }
+
+    .day input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+.csv {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+/* Submit Button */
+.btn-primary {
+    background-color: #ff7800;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    margin: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+    .btn-primary:hover {
+        background-color: darkorange;
+    }
+
+.prediction {
+    font-size: 24px; /* make it larger */
+    font-weight: 600; /* bold for emphasis */
+    color: #333; /* or a highlight color like orange */
+}
+
+/* Footer */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.footer p,
+.footer h3 {
+    margin-bottom: 10px;
+}
+
+/* Back to top */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: orange;
+    color: #fff;
+    padding: 10px;
+    border-radius: 50%;
+    text-align: center;
+    text-decoration: none;
+}
+
+    .back-to-top:hover {
+        background-color: darkorange;
+    }
+
+.weekly-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 equal columns side by side */
+    gap: 15px; /* space between columns */
+    margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.day-column {
+    background-color: #ff7800; /* your orange color */
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(255, 120, 0, 0.4);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* 
+======================
+   feedback 
+======================
+*/
+
+.thumb-button {
+    border: none;
+    background: none;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+    .thumb-button:hover {
+        color: orange; /* highlight color on hover */
+    }
+
+    .thumbs-up {
+        color: green;
+    }
+
+    .thumbs-down {
+        color: red;
+    }
+
+.feedback-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.feedback-dialog-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.feedback-dialog-box {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1001;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    font-family: 'Poppins', sans-serif;
+}
+
+    .feedback-dialog-box .form-group {
+        margin-bottom: 10px;
+        text-align: left;
+    }
+
+    .feedback-dialog-box label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 5px;
+        font-size: 0.95rem;
+    }
+
+    .feedback-dialog-box input {
+        width: 100%;
+        padding: 6px 8px;
+        font-size: 0.9rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+.thank-you {
+    text-align: center;
+    font-size: 1rem;
+    color: green;
+}
+
+/* Upload Csv */
+
+.outer-container {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.upload-container {
+    background-color: #fff;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+
+/* Responsive fallback for smaller screens */
+@media (max-width: 900px) {
+    .weekly-grid {
+        grid-template-columns: repeat(2, 1fr); /* stack two columns per row */
+    }
+}
+
+@media (max-width: 500px) {
+    .weekly-grid {
+        grid-template-columns: 1fr; /* full width on small phones */
+    }
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+
+}

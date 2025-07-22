@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile - Cloud Concierge</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+   
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"></div>
+            </div>
+        </div>
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-content">
+                    <div class="logo">
+                        <h2>Cloud Concierge</h2>
+                    </div>
+                    <ul class="nav-links">
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="index.html">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="outer-container">
+        <div class="signup-container">
+            <h2>My Profile</h2>
+
+            <div class="info-group">
+                <span class="info-label">Email:</span>
+                <span class="info-value" id="email">Loading...</span>
+            </div>
+
+            <div class="info-group">
+                <span class="info-label">Restaurant:</span>
+                <span class="info-value" id="restaurant">Loading...</span>
+            </div>
+
+            <div class="info-group">
+                <span class="info-label">Postal Code:</span>
+                <span class="info-value" id="postal">Loading...</span>
+            </div>
+
+            <div class="section-title">Upload Sales CSV</div>
+            <form id="csv-upload-form">
+                <input type="file" id="csv-file" accept=".csv" required />
+                <div id="csv-error" class="error-message" style="color:red; margin-bottom:10px;"></div>
+                <button type="submit" class="btn btn-primary">Upload CSV</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function loadUserProfileFromLocalStorage() {
+            const email = localStorage.getItem('email') || 'N/A';
+            const restaurantName = localStorage.getItem('restaurantName') || 'N/A';
+            const postalCode = localStorage.getItem('postalCode') || 'N/A';
+
+            document.getElementById('email').textContent = email;
+            document.getElementById('restaurant').textContent = restaurantName;
+            document.getElementById('postal').textContent = postalCode;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadUserProfileFromLocalStorage);
+
+        // CSV upload code remains unchanged
+        document.getElementById('csv-upload-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById('csv-file');
+            const file = fileInput.files[0];
+            const errorDiv = document.getElementById('csv-error');
+            errorDiv.textContent = '';
+            const btn = fileInput.nextElementSibling.nextElementSibling;
+            btn.disabled = true;
+            btn.textContent = 'Uploading...';
+            if (!file) {
+                errorDiv.textContent = 'Please select a CSV file.';
+                btn.disabled = false;
+                btn.textContent = 'Upload CSV';
+                return;
+            }
+            const formData = new FormData();
+            formData.append('file', file);
+            try {
+                const res = await fetch('https://cloudconcierge-node.onrender.com/api/sales/upload-csv', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: formData
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    errorDiv.style.color = 'green';
+                    errorDiv.textContent = data.message || 'Upload complete.';
+                } else {
+                    errorDiv.style.color = 'red';
+                    errorDiv.textContent = data.message || 'CSV upload failed.';
+                }
+            } catch (err) {
+                errorDiv.style.color = 'red';
+                errorDiv.textContent = 'CSV upload failed.';
+            }
+            btn.disabled = false;
+            btn.textContent = 'Upload CSV';
+        });
+    </script>
+
+</body>
+</html>

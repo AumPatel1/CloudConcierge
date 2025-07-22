@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cloud Concierge</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"></div>
+            </div>
+        </div>
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-content">
+                    <div class="logo">
+                        <h2>Cloud Concierge</h2>
+                    </div>
+                    <ul class="nav-links">
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="index.html">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <section class="dashboard-content">
+        <div class="container">
+            <div class="prediction-card">
+                <div class="prediction-title">
+                    <h2>Weekly Predictions</h2>
+                </div>
+                <p class="last-updated">Last updated: <span id="lastUpdated">Loading...</span></p>
+
+                <div class="weekly-grid">
+                    <!-- Monday -->
+                    <div class="day-column">
+                        <div class="day-name">Monday</div>
+                        <div class="prediction-label">Expected Sales</div>
+                        <div id="monday-prediction" class="prediction"></div>
+                        <div class="feedback">
+                            <button class="thumb-button thumbs-up">
+                                <i class="fas fa-thumbs-up"></i>
+                            </button>
+                            <button class="thumb-button thumbs-down">
+                                <i class="fas fa-thumbs-down"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tuesday -->
+                    <div class="day-column">
+                        <div class="day-name">Tuesday</div>
+                        <div class="prediction-label">Expected Sales</div>
+                        <div id="tuesday-prediction" class="prediction"></div>
+                        <div class="feedback">
+                            <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                            <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Wednesday -->
+                    <div class="day-column">
+                        <div class="day-name">Wednesday</div>
+                        <div class="prediction-label">Expected Sales</div>
+                        <div id="wednesday-prediction" class="prediction"></div>
+                        <div class="feedback">
+                            <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                            <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Thursday -->
+                    <div class="day-column">
+                        <div class="day-name">Thursday</div>
+                        <div class="prediction-label">Expected Sales</div>
+                        <div id="thursday-prediction" class="prediction"></div>
+                        <div class="feedback">
+                            <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                            <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Friday -->
+                    <div class="day-column">
+                        <div class="day-name">Friday</div>
+                        <div class="prediction-label">Expected Sales</div>
+                        <div id="friday-prediction" class="prediction"></div>
+                        <div class="feedback">
+                            <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                            <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Saturday -->
+                    <div class="day-column">
+                        <div class="day-name">Saturday</div>
+                        <div class="prediction-label">Expected Sales</div>
+                        <div id="saturday-prediction" class="prediction"></div>
+                        <div class="feedback">
+                            <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                            <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sunday -->
+                    <div class="day-column">
+                        <div class="day-name">Sunday</div>
+                        <div class="prediction-label">Expected Sales</div>
+                        <div id="sunday-prediction" class="prediction"></div>
+                        <div class="feedback">
+                            <button class="thumb-button thumbs-up"><i class="fas fa-thumbs-up"></i></button>
+                            <button class="thumb-button thumbs-down"><i class="fas fa-thumbs-down"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="prediction-details">
+                    <h3>Prediction Details</h3>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EmailJS Support -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        (function () {
+            emailjs.init("Dsoxr26eHFkJyNkDV");
+        })();
+    </script>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded and parsed.');
+
+            // Load predicted sales from localStorage
+            const data = JSON.parse(localStorage.getItem('predictedSales'));
+            console.log('Loaded predictedSales from localStorage:', data);
+
+            if (!data) {
+                console.warn('No predicted sales data found in localStorage.');
+                document.getElementById('lastUpdated').textContent = 'No data available';
+                return;
+            }
+
+            // Set lastUpdated text
+            if (data.lastUpdated) {
+                console.log('Using stored lastUpdated:', data.lastUpdated);
+                document.getElementById('lastUpdated').textContent = data.lastUpdated;
+                if (data.avgLast && data.avgNext) {
+                    const percentChange = ((data.tempRatio - 1) * 100).toFixed(1);
+                    const trend = data.tempRatio > 1 ? "increase" : "decrease";
+                    const summaryText = `Based on an average temperature of ${data.avgLast.toFixed(1)}°C last week
+                  and ${data.avgNext.toFixed(1)}°C next week, the model predicts a ${Math.abs(percentChange)}% ${trend} in sales.`;
+
+                    const summaryElem = document.createElement("p");
+                    summaryElem.style.marginTop = "20px";
+                    summaryElem.style.fontStyle = "italic";
+                    summaryElem.style.color = "#555";
+                    summaryElem.textContent = summaryText;
+
+                    document.querySelector(".prediction-card").appendChild(summaryElem);
+                }
+
+            } else {
+                const now = new Date().toLocaleString();
+                console.log('No lastUpdated in data, using current date/time:', now);
+                document.getElementById('lastUpdated').textContent = now;
+            }
+
+            const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
+            // Populate predicted sales per day
+            days.forEach(day => {
+                const elem = document.getElementById(`${day}-prediction`);
+                if (!elem) {
+                    console.warn(`Element with id "${day}-prediction" not found in DOM.`);
+                    return;
+                }
+
+                if (data[day] === undefined) {
+                    console.warn(`No predicted sales data found for "${day}".`);
+                    elem.textContent = 'N/A';
+                    return;
+                }
+
+                console.log(`Setting prediction for ${day}:`, data[day]);
+                elem.textContent = `$${data[day]}`;
+            });
+        });
+
+
+        // Setup feedback buttons
+        document.querySelectorAll('.day-column').forEach((column) => {
+            const day = column.querySelector('.day-name').textContent;
+            const expectedSalesElement = column.querySelector('.prediction');
+            const expectedSales = expectedSalesElement ? expectedSalesElement.textContent : '';
+
+            const thumbsUp = column.querySelector('.thumbs-up');
+            const thumbsDown = column.querySelector('.thumbs-down');
+
+            // 👍 Thumbs Up
+            thumbsUp.addEventListener('click', () => {
+                const dialog = document.createElement('div');
+                dialog.className = 'feedback-dialog';
+                dialog.innerHTML = `
+                                <div class="feedback-dialog-overlay"></div>
+                                <div class="feedback-dialog-box">
+                                  <h3>Positive Feedback for ${day}</h3>
+                                  <label>Your feedback:</label>
+                                  <textarea id="positiveFeedback" rows="4" style="width:100%; padding:8px; font-size:0.9rem;"></textarea>
+                                  <button class="submit-feedback">Submit</button>
+                                </div>
+                              `;
+                document.body.appendChild(dialog);
+
+                dialog.querySelector('.submit-feedback').addEventListener('click', () => {
+                    const message = dialog.querySelector('#positiveFeedback').value;
+
+                    emailjs.send("service_in8qn0h", "template_g2pl6mb", {
+                        day: day,
+                        feedback: message
+                    }).then(() => {
+                        dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you'>Thank you!</div>";
+                        setTimeout(() => dialog.remove(), 2000);
+                    }).catch((error) => {
+                        dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you' style='color:red;'>Failed to send.</div>";
+                        console.error("EmailJS error:", error);
+                    });
+                });
+
+                dialog.querySelector('.feedback-dialog-overlay').addEventListener('click', () => {
+                    dialog.remove();
+                });
+            });
+
+            // 👎 Thumbs Down
+            thumbsDown.addEventListener('click', () => {
+                const dialog = document.createElement('div');
+                dialog.className = 'feedback-dialog';
+                dialog.innerHTML = `
+                                <div class="feedback-dialog-overlay"></div>
+                                <div class="feedback-dialog-box">
+                                  <div class="form-group">
+                                    <label>Expected Sales:</label>
+                                    <input type="number" value="${expectedSales}" readonly>
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Actual Sales:</label>
+                                    <input type="number" id="actualSales" required>
+                                  </div>
+                                  <button class="submit-feedback">Submit</button>
+                                </div>
+                              `;
+                document.body.appendChild(dialog);
+
+                dialog.querySelector('.submit-feedback').addEventListener('click', () => {
+                    const actualSales = dialog.querySelector('#actualSales').value;
+
+                    emailjs.send("service_in8qn0h", "template_bljrzfg", {
+                        day: day,
+                        expected_Sales: expectedSales,
+                        actual_Sales: actualSales
+                    }).then(() => {
+                        dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you'>Thank you!</div>";
+                        setTimeout(() => dialog.remove(), 2000);
+                    }).catch((error) => {
+                        dialog.querySelector('.feedback-dialog-box').innerHTML = "<div class='thank-you' style='color:red;'>Failed to send.</div>";
+                        console.error("EmailJS error:", error);
+                    });
+                });
+
+                dialog.querySelector('.feedback-dialog-overlay').addEventListener('click', () => {
+                    dialog.remove();
+                });
+            });
+        });
+    </script>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>About Cloud Concierge</h3>
+                    <p>Your AI sales prediction software</p>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 1395 Woodroffe Ave, Ottawa ON</p>
+                    <p><i class="fas fa-envelope"></i> support@cloudconcierge.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cloud Concierge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- Your other scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>
