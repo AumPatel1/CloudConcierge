@@ -90,6 +90,32 @@
         const token = localStorage.getItem("token");
         if (!token) window.location.href = "index.html";
 
+        async function loadLatestSales() {
+            try {
+                const res = await fetch(`${BASE_URL}/api/sales/latest`, {
+                    headers: { Authorization: 'Bearer ' + token }
+                });
+                if (!res.ok) {
+                    console.warn('No latest sales found or error fetching');
+                    return;
+                }
+                const data = await res.json();
+
+                // Fill input fields if data is present
+                days.forEach(day => {
+                    if (data[day] !== undefined && data[day] !== null) {
+                        const input = document.getElementById(day);
+                        if (input) input.value = data[day];
+                    }
+                });
+            } catch (err) {
+                console.error('Failed to load latest sales:', err);
+            }
+        }
+
+        // Call on page load
+        loadLatestSales();
+
         document.getElementById("restaurant-name").textContent = "Your Restaurant Name";
 
         // Days array

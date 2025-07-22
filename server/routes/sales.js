@@ -77,4 +77,19 @@ router.post('/upload-csv', verifyToken, upload.single('file'), async (req, res) 
     }
 });
 
+// GET latest sales averages for the logged-in user
+router.get('/latest', verifyToken, async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const latestSales = await Sales.findOne({ userId }).sort({ createdAt: -1 });
+        if (!latestSales) {
+            return res.status(404).json({ message: 'No sales data found.' });
+        }
+        res.json(latestSales);
+    } catch (error) {
+        console.error('Error fetching latest sales:', error);
+        res.status(500).json({ message: 'Server error fetching sales data.' });
+    }
+});
+
 module.exports = router;
