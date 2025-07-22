@@ -32,53 +32,48 @@
             </div>
         </nav>
     </header>
-    <div class="profile-container">
-        <h2>My Profile</h2>
+    <div class="outer-container">
+        <div class="signup-container">
+            <h2>My Profile</h2>
 
-        <div class="info-group">
-            <span class="info-label">Email:</span>
-            <span class="info-value" id="email">Loading...</span>
+            <div class="info-group">
+                <span class="info-label">Email:</span>
+                <span class="info-value" id="email">Loading...</span>
+            </div>
+
+            <div class="info-group">
+                <span class="info-label">Restaurant:</span>
+                <span class="info-value" id="restaurant">Loading...</span>
+            </div>
+
+            <div class="info-group">
+                <span class="info-label">Postal Code:</span>
+                <span class="info-value" id="postal">Loading...</span>
+            </div>
+
+            <div class="section-title">Upload Sales CSV</div>
+            <form id="csv-upload-form">
+                <input type="file" id="csv-file" accept=".csv" required />
+                <div id="csv-error" class="error-message" style="color:red; margin-bottom:10px;"></div>
+                <button type="submit" class="btn btn-primary">Upload CSV</button>
+            </form>
         </div>
-
-        <div class="info-group">
-            <span class="info-label">Restaurant:</span>
-            <span class="info-value" id="restaurant">Loading...</span>
-        </div>
-
-        <div class="info-group">
-            <span class="info-label">Postal Code:</span>
-            <span class="info-value" id="postal">Loading...</span>
-        </div>
-
-        <div class="section-title">Upload Sales CSV</div>
-        <form id="csv-upload-form">
-            <input type="file" id="csv-file" accept=".csv" required />
-            <div id="csv-error" class="error-message" style="color:red; margin-bottom:10px;"></div>
-            <button type="submit" class="btn btn-primary">Upload CSV</button>
-        </form>
     </div>
 
     <script>
-        async function fetchUserProfile() {
-            try {
-                const res = await fetch('https://cloudconcierge-node.onrender.com/api/auth/profile', {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
+        function loadUserProfileFromLocalStorage() {
+            const email = localStorage.getItem('email') || 'N/A';
+            const restaurantName = localStorage.getItem('restaurantName') || 'N/A';
+            const postalCode = localStorage.getItem('postalCode') || 'N/A';
 
-                if (!res.ok) throw new Error('Failed to fetch user profile.');
-
-                const user = await res.json();
-                document.getElementById('email').textContent = user.email || 'N/A';
-                document.getElementById('restaurant').textContent = user.restaurantName || 'N/A';
-                document.getElementById('postal').textContent = user.postalCode || 'N/A';
-            } catch (err) {
-                console.error(err);
-                alert('Could not load user profile.');
-            }
+            document.getElementById('email').textContent = email;
+            document.getElementById('restaurant').textContent = restaurantName;
+            document.getElementById('postal').textContent = postalCode;
         }
 
+        document.addEventListener('DOMContentLoaded', loadUserProfileFromLocalStorage);
+
+        // CSV upload code remains unchanged
         document.getElementById('csv-upload-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const fileInput = document.getElementById('csv-file');
@@ -119,8 +114,7 @@
             btn.disabled = false;
             btn.textContent = 'Upload CSV';
         });
-
-        document.addEventListener('DOMContentLoaded', fetchUserProfile);
     </script>
+
 </body>
 </html>
