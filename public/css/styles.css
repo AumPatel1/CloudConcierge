@@ -57,6 +57,52 @@ body {
             color: #333;
         }
 
+        /* Sign up */
+
+.signup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.signup-container {
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+    .signup-container h2 {
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .signup-container input[type="email"],
+    .signup-container input[type="password"],
+    .signup-container input[type="text"] {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 0.25rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+
+.checkbox-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+    .checkbox-group label {
+        font-size: 0.9rem;
+        margin-right: 1rem;
+    }
 /* Login */
 .login {
     display: flex;
