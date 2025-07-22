@@ -3,7 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 const salesRoutes = require('./routes/sales');
-const predictionRoute = require('./routes/predict_sales');
+const predictionRoutes = require('./routes/prediction');
 const app = express();
 const fetch = require('node-fetch'); // npm install node-fetch if not already
 
@@ -21,16 +21,17 @@ const corsOptions = {
     optionsSuccessStatus: 200,
 };
 
-// Use CORS middleware
+// Use CORS middlewar
 app.use(cors(corsOptions));
 
 // Middleware to parse JSON requests
 app.use(express.json());
 
-// Routes
+// Route
 app.use('/api/auth', authRoutes);
 app.use('/api/sales', salesRoutes);
 app.use('/api/predict', predictionRoute);
+
 
 app.post('/proxy/predict', async (req, res) => {
   console.log('➡️ Proxy received:', req.body); // Log incoming data
@@ -62,7 +63,6 @@ app.post('/proxy/predict', async (req, res) => {
 });
 
 
-
 // MongoDB connection
 
 mongoose.connect('mongodb+srv://CloudConcierge:GeekSquad@cloudconcierge.ezpvr.mongodb.net/?retryWrites=true&w=majority&appName=CloudConcierge', {
@@ -71,6 +71,7 @@ mongoose.connect('mongodb+srv://CloudConcierge:GeekSquad@cloudconcierge.ezpvr.mo
 })
 .then(() => console.log('Connected to MongoDB'))
 .catch((err) => console.log('Failed to connect to MongoDB:', err));
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;

@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const verifyToken = require('../middleware/verifyToken'); // ✅ Make sure this is imported
 
 const router = express.Router();
 
@@ -95,6 +96,7 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+
 
 
 module.exports = router;
