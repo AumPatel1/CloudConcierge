@@ -43,7 +43,6 @@ router.get('/', verifyToken, async (req, res) => {
 });
 
 // POST: Upload a CSV file and save sales data
-router.options('/upload-csv', cors()); // Handle preflight CORS
 router.post('/upload-csv', verifyToken, upload.single('file'), async (req, res) => {
     try {
         const userId = req.user.userId;
