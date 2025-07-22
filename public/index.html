@@ -91,11 +91,19 @@
         const data = await response.json();
 
         if (response.ok && data.token) {
-            // Save the token in localStorage
             localStorage.setItem('token', data.token);
+
+            // Save user info
+            localStorage.setItem('restaurantName', data.user.restaurantName);
+            localStorage.setItem('restaurantId', data.user._id);
+            localStorage.setItem('email', data.user.email);
+            localStorage.setItem('restaurantTypes', JSON.stringify(data.user.restaurantTypes));
+            localStorage.setItem('postalCode', data.user.postalCode);
+
 
             // Redirect to the dashboard
             window.location.href = 'dashboard.html'; // Redirect to the dashboard page
+        
         } else {
             alert('Login failed: ' + data.message);
         }

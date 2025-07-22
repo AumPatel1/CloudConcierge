@@ -78,9 +78,21 @@
 
     <!-- JavaScript -->
     <script>
-        const BASE_URL = "https://cloudconcierge-node.onrender.com";
+        // Redirect if no token
         const token = localStorage.getItem("token");
-        if (!token) window.location.href = "index.html";
+        if (!token) {
+            window.location.href = "index.html";
+        }
+
+        // Set restaurant name from localStorage
+        const restaurantName = localStorage.getItem('restaurantName');
+        if (restaurantName) {
+            document.getElementById('restaurant-name').textContent = restaurantName;
+        } else {
+            document.getElementById('restaurant-name').textContent = "Your Restaurant Name";
+        }
+
+        const BASE_URL = "https://cloudconcierge-node.onrender.com";
 
         const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
         const container = document.getElementById("days-container");
@@ -118,6 +130,7 @@
         const lastWeekDates = getPreviousWeekDates();
         const nextWeekDates = getNextWeekDates();
 
+        // Generate inputs dynamically once
         days.forEach((day, index) => {
             const capitalized = day.charAt(0).toUpperCase() + day.slice(1);
             const date = lastWeekDates[index];
@@ -130,6 +143,7 @@
                     </div>`;
         });
 
+        // Load latest sales into inputs
         async function loadLatestSales() {
             try {
                 const res = await fetch(`${BASE_URL}/api/sales/latest`, {
@@ -148,9 +162,6 @@
                 console.error('Failed to load latest sales:', err);
             }
         }
-
-        document.getElementById("restaurant-name").textContent = "Your Restaurant Name";
-        loadLatestSales();
 
         const latitude = 45.4215;
         const longitude = -75.6972;
@@ -178,6 +189,7 @@
             ]);
 
             if (lastTemps.length !== 7 || nextTemps.length !== 7) {
+                loading.style.display = "none";
                 alert("Temperature data not complete.");
                 return;
             }
@@ -187,13 +199,17 @@
             try {
                 for (let i = 0; i < days.length; i++) {
                     const day = days[i];
-                    const [lastTemp, nextTemp] = [lastTemps[i], nextTemps[i]];
+                    const lastTemp = lastTemps[i];
+                    const nextTemp = nextTemps[i];
 
                     const lastResponse = await fetch(`${BASE_URL}/proxy/predict`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ temperature: lastTemp, day }),
                     });
+                    if (!lastResponse.ok) {
+                        throw new Error(`Prediction error for last week ${day}`);
+                    }
                     const lastValObj = await lastResponse.json();
 
                     const nextResponse = await fetch(`${BASE_URL}/proxy/predict`, {
@@ -201,6 +217,9 @@
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ temperature: nextTemp, day }),
                     });
+                    if (!nextResponse.ok) {
+                        throw new Error(`Prediction error for next week ${day}`);
+                    }
                     const nextValObj = await nextResponse.json();
 
                     const lastVal = lastValObj.prediction ?? lastValObj.value;
@@ -237,8 +256,11 @@
 
         document.getElementById("sales-form").addEventListener("submit", handleSalesFormSubmit);
 
+        // Wait until DOM is loaded before calling async functions
         window.addEventListener('DOMContentLoaded', async () => {
-            await loadLatestSales(); // Wait until latest sales are loaded
+            await loadLatestSales();
+
+            // Only auto-submit after inputs are populated
             if (localStorage.getItem('autoSubmit') === 'true') {
                 localStorage.removeItem('autoSubmit');
                 handleSalesFormSubmit();
