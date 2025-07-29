@@ -162,6 +162,7 @@
             }));
 
             // Navigate or show results (update here if you want to display directly instead of navigating)
+            localStorage.setItem('source', 'csv');
             window.location.href = "restaurant-dashboard.html";
         } catch (err) {
             console.error("Prediction failed:", err);

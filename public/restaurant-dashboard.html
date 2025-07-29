@@ -148,6 +148,7 @@
 
     <!-- Scripts -->
     <script>
+        const source = localStorage.getItem('source');
         document.addEventListener('DOMContentLoaded', () => {
             console.log('DOM fully loaded and parsed.');
 
@@ -168,7 +169,7 @@
                 if (data.avgLast && data.avgNext) {
                     const percentChange = ((data.tempRatio - 1) * 100).toFixed(1);
                     const trend = data.tempRatio > 1 ? "increase" : "decrease";
-                    const summaryText = `Based on an average temperature of ${data.avgLast.toFixed(1)}°C last week
+                    const summaryText = `Based on an average temperature of ${data.avgLast.toFixed(1)}°C during the sample data
                   and ${data.avgNext.toFixed(1)}°C next week, the model predicts a ${Math.abs(percentChange)}% ${trend} in sales.`;
 
                     const summaryElem = document.createElement("p");

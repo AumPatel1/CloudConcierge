@@ -244,7 +244,7 @@
                     avgNext,
                     tempRatio
                 }));
-
+                localStorage.setItem('source', 'dashboard');
                 window.location.href = "restaurant-dashboard.html";
             } catch (error) {
                 console.error("Error fetching prediction data:", error);
