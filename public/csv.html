@@ -41,49 +41,174 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('upload-btn').addEventListener('click', async () => {
-            const file = document.getElementById('csv-file').files[0];
-            const errorDiv = document.getElementById('csv-error');
-            errorDiv.textContent = '';
-            const btn = document.getElementById('upload-btn');
-            btn.disabled = true;
-            btn.textContent = 'Uploading...';
-            if (!file) {
-                errorDiv.textContent = 'Please select a CSV file.';
-                btn.disabled = false;
-                btn.textContent = 'Upload CSV';
+<script>
+    const token = localStorage.getItem('token');
+    const BASE_URL = "https://cloudconcierge-node.onrender.com";
+    const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
+    const latitude = 45.4215;
+    const longitude = -75.6972;
+
+    function formatDate(date) {
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        return `${date.getFullYear()}-${month}-${day}`;
+    }
+
+    function getPreviousWeekDates() {
+        const current = new Date();
+        const dayOfWeek = current.getDay();
+        const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+        current.setDate(current.getDate() - diffToMonday - 7);
+        return Array.from({ length: 7 }, () => {
+            const d = new Date(current);
+            current.setDate(current.getDate() + 1);
+            return formatDate(d);
+        });
+    }
+
+    function getNextWeekDates() {
+        const current = new Date();
+        const dayOfWeek = current.getDay();
+        const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+        current.setDate(current.getDate() - diffToMonday + 7);
+        return Array.from({ length: 7 }, () => {
+            const d = new Date(current);
+            current.setDate(current.getDate() + 1);
+            return formatDate(d);
+        });
+    }
+
+    async function fetchForecastWeather(startDate, endDate) {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&start_date=${startDate}&end_date=${endDate}&daily=temperature_2m_max&timezone=America/New_York`;
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.daily?.temperature_2m_max || [];
+    }
+
+    async function handleSalesFormSubmit() {
+        const lastWeekDates = getPreviousWeekDates();
+        const nextWeekDates = getNextWeekDates();
+
+        const loading = document.createElement('div');
+        loading.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Calculating predicted sales...`;
+        loading.style.textAlign = "center";
+        document.body.appendChild(loading);
+
+        try {
+            const res = await fetch(`${BASE_URL}/api/sales/latest`, {
+                headers: { Authorization: 'Bearer ' + token }
+            });
+            const sales = await res.json();
+
+            const salesData = {};
+            for (const day of days) {
+                const val = sales[day];
+                if (typeof val === "number") salesData[day] = val;
+            }
+
+            const [lastTemps, nextTemps] = await Promise.all([
+                fetchForecastWeather(lastWeekDates[0], lastWeekDates[6]),
+                fetchForecastWeather(nextWeekDates[0], nextWeekDates[6]),
+            ]);
+
+            if (lastTemps.length !== 7 || nextTemps.length !== 7) {
+                alert("Temperature data not complete.");
                 return;
             }
 
-            const formData = new FormData();
-            formData.append('file', file);
+            const predictedSales = {};
 
-            const token = localStorage.getItem('token');
+            for (let i = 0; i < days.length; i++) {
+                const day = days[i];
+                const lastTemp = lastTemps[i];
+                const nextTemp = nextTemps[i];
 
-            try {
-                const res = await fetch('https://cloudconcierge-node.onrender.com/api/sales/upload-csv', {
-                    method: 'POST',
-                    headers: {
-                        Authorization: 'Bearer ' + token
-                    },
-                    body: formData
+                const lastRes = await fetch(`${BASE_URL}/proxy/predict`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ temperature: lastTemp, day }),
                 });
+                const lastValObj = await lastRes.json();
 
-                const result = await res.json();
-                if (res.ok) {
-                    localStorage.setItem('autoSubmit', 'true'); // Set flag
-                    window.location.href = './dashboard.html';
-                
-                } else {
-                    errorDiv.textContent = result.message || 'Upload failed.';
+                const nextRes = await fetch(`${BASE_URL}/proxy/predict`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ temperature: nextTemp, day }),
+                });
+                const nextValObj = await nextRes.json();
+
+                const lastVal = lastValObj.prediction ?? lastValObj.value;
+                const nextVal = nextValObj.prediction ?? nextValObj.value;
+
+                if (typeof lastVal !== "number" || typeof nextVal !== "number") {
+                    throw new Error(`Invalid prediction for ${day}`);
                 }
-            } catch (err) {
-                errorDiv.textContent = 'Upload failed. Please try again.';
+
+                const ratio = nextVal / lastVal;
+                predictedSales[day] = Math.round(salesData[day] * ratio);
             }
+
+            const avgLast = lastTemps.reduce((a, b) => a + b, 0) / 7;
+            const avgNext = nextTemps.reduce((a, b) => a + b, 0) / 7;
+            const tempRatio = avgNext / avgLast;
+
+            localStorage.setItem("predictedSales", JSON.stringify({
+                ...predictedSales,
+                lastUpdated: new Date().toLocaleString(),
+                avgLast,
+                avgNext,
+                tempRatio
+            }));
+
+            // Navigate or show results (update here if you want to display directly instead of navigating)
+            window.location.href = "restaurant-dashboard.html";
+        } catch (err) {
+            console.error("Prediction failed:", err);
+            alert("Prediction failed.");
+        } finally {
+            loading.remove();
+        }
+    }
+
+    document.getElementById('upload-btn').addEventListener('click', async () => {
+        const file = document.getElementById('csv-file').files[0];
+        const errorDiv = document.getElementById('csv-error');
+        errorDiv.textContent = '';
+        const btn = document.getElementById('upload-btn');
+        btn.disabled = true;
+        btn.textContent = 'Uploading...';
+        if (!file) {
+            errorDiv.textContent = 'Please select a CSV file.';
             btn.disabled = false;
             btn.textContent = 'Upload CSV';
-        });
-    </script>
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const res = await fetch(`${BASE_URL}/api/sales/upload-csv`, {
+                method: 'POST',
+                headers: { Authorization: 'Bearer ' + token },
+                body: formData
+            });
+
+            const result = await res.json();
+            if (res.ok) {
+                await handleSalesFormSubmit(); // 🟢 Now trigger prediction
+            } else {
+                errorDiv.textContent = result.message || 'Upload failed.';
+            }
+        } catch (err) {
+            errorDiv.textContent = 'Upload failed. Please try again.';
+        }
+
+        btn.disabled = false;
+        btn.textContent = 'Upload CSV';
+    });
+</script>
+
 </body>
 </html>
