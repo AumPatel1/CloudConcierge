@@ -1,10 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\core-website",
+    "\\public",
+    "\\public\\css",
     "\\server",
+    "\\server\\routes",
     "\\src"
   ],
-  "SelectedNode": "\\core-website\\dashboard.html",
+  "SelectedNode": "\\public\\restaurant-dashboard.html",
   "PreviewInSolutionExplorer": false
 }
