@@ -24,7 +24,7 @@
                         <h2>Cloud Concierge</h2>
                     </div>
                     <ul class="nav-links">
-                        <li><a href="dashboard.html">Get Predictions</a></li>
+                        <li><a href="getprediction.html">Get Predictions</a></li>
                         <li><a href="profile.html">Profile</a></li>
                         <li><a href="index.html">Logout</a></li>
                     </ul>
@@ -35,42 +35,13 @@
 
     <div class="outer-container">
         <div class="signup-container">
-            <h2>My Profile</h2>
-
-            <div class="info-group">
-                <span class="info-label">Email:</span>
-                <span class="info-value" id="email">Loading...</span>
-            </div>
-
-            <div class="info-group">
-                <span class="info-label">Restaurant:</span>
-                <span class="info-value" id="restaurant">Loading...</span>
-            </div>
-
-            <div class="info-group">
-                <span class="info-label">Postal Code:</span>
-                <span class="info-value" id="postal">Loading...</span>
-            </div>
-
+            <h2>Enter your sales numbers and get your prediction!</h2>
             <!-- Buttons -->
             <div class="button-group"><br><br>
-                <button class="btn btn-primary" onclick="location.href='getprediction.html'">Get Prediction</button>
+                <button class="btn btn-primary" onclick="location.href='dashboard.html'">Enter Manually</button>
+                <button class="btn btn-primary" onclick="location.href='csv.html'">Upload CSV</button>
             </div>
         </div>
     </div>
-
-    <script>
-        function loadUserProfileFromLocalStorage() {
-            const email = localStorage.getItem('email') || 'N/A';
-            const restaurantName = localStorage.getItem('restaurantName') || 'N/A';
-            const postalCode = localStorage.getItem('postalCode') || 'N/A';
-
-            document.getElementById('email').textContent = email;
-            document.getElementById('restaurant').textContent = restaurantName;
-            document.getElementById('postal').textContent = postalCode;
-        }
-
-        document.addEventListener('DOMContentLoaded', loadUserProfileFromLocalStorage);
-    </script>
 </body>
 </html>

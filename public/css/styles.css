@@ -221,6 +221,14 @@ body {
         background-color: darkorange;
     }
 
+    .button-group {
+    display: flex;
+    gap: 10px; /* space between buttons */
+    justify-content: center; /* center horizontally */
+    align-items: center;     /* align vertically */
+}
+
+
 .prediction {
     font-size: 24px; /* make it larger */
     font-weight: 600; /* bold for emphasis */
