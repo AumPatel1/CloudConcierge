@@ -57,6 +57,7 @@
 
                     <button type="submit" class="btn btn-primary">Sign Up</button>
                 </form>
+                <div class="signup-content"></div>
 
                 <div class="signup-footer">
                     <p>Already have an account? <a href="index.html">Login here</a></p>
@@ -119,10 +120,22 @@
                     localStorage.setItem('restaurantTypes', JSON.stringify(data.user.restaurantTypes));
                     localStorage.setItem('postalCode', data.user.postalCode);
 
-                    alert(data.message);
-                    window.location.href = 'dashboard.html';
+                    if (res.ok) {
+                        document.querySelector('.signup-content').insertAdjacentHTML(
+                                'beforeend',
+                                `<p class="success-message">${data.message}</p>`
+                    );
+
+                    setTimeout(() => {
+                         window.location.href = 'index.html';
+                    }, 1000);
+}
+
                 } else {
-                    // alert(data.message || 'Signup failed.');
+                        document.querySelector('.signup-content').insertAdjacentHTML(
+                                'beforeend',
+                                `<p class="success-message">${data.message}</p>`
+                );
                 }
             } catch (err) {
                 console.error(err);
